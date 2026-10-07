@@ -1,0 +1,1502 @@
+[
+  {
+    "no": 1,
+    "description": "TKDN (SHG)",
+    "user": "SHG",
+    "pic": "Hudan",
+    "reviewer": "Dimas",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": "N/A",
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 9
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": 5
+      },
+      "May": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": 5
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": 7
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 2,
+    "description": "Laporan Management (Internal - Anin)",
+    "user": "SEKPER",
+    "pic": "Ito",
+    "reviewer": "Sidiq",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 13
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 13
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "May": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 3,
+    "description": "Laporan Monev SHG (Internal - SPBD)",
+    "user": "SPBD",
+    "pic": "Ito",
+    "reviewer": "Sidiq",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": "N/A",
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 11
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "May": {
+        "plan": 5,
+        "aktual": 5
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": 7
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 4,
+    "description": "Monev BOD BOC",
+    "user": "SPBD",
+    "pic": "Ito",
+    "reviewer": "Sidiq",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 5
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 5
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "May": {
+        "plan": 5,
+        "aktual": 4
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": 13
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 5,
+    "description": "Investasi SIIP (Dir. ILI - Holding)",
+    "user": "Holding",
+    "pic": "Ito",
+    "reviewer": "Sidiq",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": 12,
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 11
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "May": {
+        "plan": 5,
+        "aktual": 4
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": 5
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 6,
+    "description": "Realisasi Investasi ke Holding (Memo/Tentative)",
+    "user": "Holding",
+    "pic": "Ito",
+    "reviewer": "Sidiq",
+    "target_final": 5,
+    "target_submit": 10,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": 10,
+        "aktual": 13
+      },
+      "Apr": {
+        "plan": 10,
+        "aktual": null
+      },
+      "May": {
+        "plan": 10,
+        "aktual": 9
+      },
+      "Jun": {
+        "plan": 10,
+        "aktual": 9
+      },
+      "Jul": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 10,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 7,
+    "description": "KPI (Internal - SPBD)",
+    "user": "SPBD",
+    "pic": "Ito",
+    "reviewer": "Sidiq",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": "N/A",
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 11
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 6
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "May": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": 8
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 8,
+    "description": "Project Risk",
+    "user": "ManRisk",
+    "pic": "Ito",
+    "reviewer": "Dimas",
+    "target_final": 4,
+    "target_submit": 9,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": 9,
+        "aktual": 6
+      },
+      "Feb": {
+        "plan": 9,
+        "aktual": 6
+      },
+      "Mar": {
+        "plan": 9,
+        "aktual": 6
+      },
+      "Apr": {
+        "plan": 9,
+        "aktual": 7
+      },
+      "May": {
+        "plan": 9,
+        "aktual": 6
+      },
+      "Jun": {
+        "plan": 9,
+        "aktual": 9
+      },
+      "Jul": {
+        "plan": 9,
+        "aktual": 7
+      },
+      "Aug": {
+        "plan": 9,
+        "aktual": 7
+      },
+      "Sep": {
+        "plan": 9,
+        "aktual": 8
+      },
+      "Oct": {
+        "plan": 9,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 9,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 9,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 9,
+    "description": "Aprroval Planner Activo (Closing WO PM)",
+    "user": "AIMM",
+    "pic": "Ito",
+    "reviewer": "Dimas",
+    "target_final": "10 & 31",
+    "target_submit": "10 & 31",
+    "meeting_date": "N/A",
+    "months": {
+      "Jan": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Feb": {
+        "plan": "10 & 31",
+        "aktual": "10 & 27"
+      },
+      "Mar": {
+        "plan": "10 & 31",
+        "aktual": "10 & 31"
+      },
+      "Apr": {
+        "plan": "10 & 31",
+        "aktual": "10 & 30"
+      },
+      "May": {
+        "plan": "10 & 31",
+        "aktual": "11 & 29"
+      },
+      "Jun": {
+        "plan": "10 & 31",
+        "aktual": "10 & 30"
+      },
+      "Jul": {
+        "plan": "10 & 31",
+        "aktual": "10 & 31"
+      },
+      "Aug": {
+        "plan": "10 & 31",
+        "aktual": 12
+      },
+      "Sep": {
+        "plan": "10 & 31",
+        "aktual": 14
+      },
+      "Oct": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Nov": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Dec": {
+        "plan": "10 & 31",
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 10,
+    "description": "Approval QC Activo (WO PM)",
+    "user": "AIMM",
+    "pic": "Dimas & Sidiq",
+    "reviewer": "Herman",
+    "target_final": "10 & 31",
+    "target_submit": "10 & 31",
+    "meeting_date": "N/A",
+    "months": {
+      "Jan": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Feb": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Mar": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Apr": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "May": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Jun": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Jul": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Aug": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Sep": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Oct": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Nov": {
+        "plan": "10 & 31",
+        "aktual": null
+      },
+      "Dec": {
+        "plan": "10 & 31",
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 11,
+    "description": "Laporan Maintenance Bulanan",
+    "user": "VP E&M",
+    "pic": "Dimas & Sidiq",
+    "reviewer": "Herman",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": "N/A",
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 12
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 25
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 25
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": null
+      },
+      "May": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 12,
+    "description": "Top Risk-NREmas",
+    "user": "ManRisk",
+    "pic": "Dimas",
+    "reviewer": "Herman",
+    "target_final": 5,
+    "target_submit": 10,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": 10,
+        "aktual": null
+      },
+      "May": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 10,
+        "aktual": "N/A"
+      },
+      "Oct": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 10,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 13,
+    "description": "Monitoring Kerangka Strategi Risiko",
+    "user": "ManRisk",
+    "pic": "Dimas",
+    "reviewer": "Herman",
+    "target_final": 5,
+    "target_submit": 10,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": 10,
+        "aktual": null
+      },
+      "May": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 10,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 14,
+    "description": "KPI-PMS Departemen (Evidence)",
+    "user": "SPBD",
+    "pic": "Sidiq",
+    "reviewer": "Herman",
+    "target_final": 5,
+    "target_submit": 10,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 10,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 15,
+    "description": "All Risk",
+    "user": "ManRisk",
+    "pic": "Dimas",
+    "reviewer": "Herman",
+    "target_final": 5,
+    "target_submit": 10,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 10,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 16,
+    "description": "i-COFR",
+    "user": "Keuangan",
+    "pic": "Sidiq",
+    "reviewer": "Herman",
+    "target_final": 5,
+    "target_submit": 10,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 10,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 10,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 17,
+    "description": "Laporan Realisasi Rencana Kerja dan Anggaran Perusahaan (RKAP) Tahun 2025",
+    "user": "E&M",
+    "pic": "Sidiq",
+    "reviewer": "Herman",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": 12,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 18,
+    "description": "Aset Integrity (SHG - DIGIO)",
+    "user": "SHG",
+    "pic": "Dimas & Sidiq",
+    "reviewer": "Herman",
+    "target_final": 2,
+    "target_submit": 5,
+    "meeting_date": 12,
+    "months": {
+      "Jan": {
+        "plan": 5,
+        "aktual": 13
+      },
+      "Feb": {
+        "plan": 5,
+        "aktual": 11
+      },
+      "Mar": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Apr": {
+        "plan": 5,
+        "aktual": 4
+      },
+      "May": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": 5,
+        "aktual": 10
+      },
+      "Oct": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": 5,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": 5,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": "*",
+    "description": "Laporan bulanan adalah cut off per akhir bulan (laporan bulanan September disampaikan di awal Oktober)",
+    "user": "",
+    "pic": "",
+    "reviewer": "",
+    "target_final": null,
+    "target_submit": null,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": null,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": null,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": null,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": "*",
+    "description": "PIC adalah person yang bertugas menyelesaikan laporan bulanan sesuai subjek",
+    "user": "",
+    "pic": "",
+    "reviewer": "",
+    "target_final": null,
+    "target_submit": null,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": null,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": null,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": null,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": "*",
+    "description": "Target Final adalah batas waktu PIC untuk menyelesaikan draft laporan bulanan untuk di review oleh Reviewer",
+    "user": "",
+    "pic": "",
+    "reviewer": "",
+    "target_final": null,
+    "target_submit": null,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": null,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": null,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": null,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": "*",
+    "description": "Tanggal Meeting adalah tanggal rapat pembahasan laporan bulanan bersama user (tidak semua user meminta ada meeting dimaksud)",
+    "user": "",
+    "pic": "",
+    "reviewer": "",
+    "target_final": null,
+    "target_submit": null,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": null,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": null,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": null,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": null,
+    "description": "Action",
+    "user": "",
+    "pic": "",
+    "reviewer": "",
+    "target_final": null,
+    "target_submit": null,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": null,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": null,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": null,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 2,
+    "description": "Seluruh laporan bulanan di submit kemudian otomatis tersimpan dalam folder yang dapat diakses bersama (cloud drive) dibuat folder per-bulan",
+    "user": "",
+    "pic": "",
+    "reviewer": "",
+    "target_final": null,
+    "target_submit": null,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": null,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": null,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": null,
+        "aktual": null
+      }
+    }
+  },
+  {
+    "no": 4,
+    "description": "Untuk laporan bulanan yang bukan berbentuk dokumen, file yang di submit adalah tangkapan layar / bukti screen shoot dari pengisian dari aplikasi terkait",
+    "user": "",
+    "pic": "",
+    "reviewer": "",
+    "target_final": null,
+    "target_submit": null,
+    "meeting_date": null,
+    "months": {
+      "Jan": {
+        "plan": null,
+        "aktual": null
+      },
+      "Feb": {
+        "plan": null,
+        "aktual": null
+      },
+      "Mar": {
+        "plan": null,
+        "aktual": null
+      },
+      "Apr": {
+        "plan": null,
+        "aktual": null
+      },
+      "May": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jun": {
+        "plan": null,
+        "aktual": null
+      },
+      "Jul": {
+        "plan": null,
+        "aktual": null
+      },
+      "Aug": {
+        "plan": null,
+        "aktual": null
+      },
+      "Sep": {
+        "plan": null,
+        "aktual": null
+      },
+      "Oct": {
+        "plan": null,
+        "aktual": null
+      },
+      "Nov": {
+        "plan": null,
+        "aktual": null
+      },
+      "Dec": {
+        "plan": null,
+        "aktual": null
+      }
+    }
+  }
+]

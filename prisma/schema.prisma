@@ -1,0 +1,207 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  PIC
+  REVIEWER
+  MANAGEMENT
+}
+
+enum ReportFrequency {
+  MONTHLY
+  QUARTERLY
+  CUSTOM
+}
+
+enum PeriodStatus {
+  PENDING
+  IN_PROGRESS
+  SUBMITTED
+  UNDER_REVIEW
+  REVISION
+  APPROVED
+  OVERDUE
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  REVISION
+  APPROVED
+  REJECTED
+}
+
+enum NotificationType {
+  REMINDER
+  DEADLINE_SOON
+  DEADLINE_TODAY
+  OVERDUE
+  SUBMITTED
+  REVISION
+  APPROVED
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         UserRole  @default(USER)
+  department   String?
+  active       Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  assignedReports    ReportAssignment[] @relation("AssigneeReports")
+  picReports         ReportAssignment[] @relation("PicReports")
+  reviewerReports    ReportAssignment[] @relation("ReviewerReports")
+  submissions        Submission[]       @relation("UserSubmissions")
+  reviewedSubmissions Submission[]      @relation("UserReviewedSubmissions")
+  notifications      Notification[]
+  activityLogs       ActivityLog[]
+
+  @@map("users")
+}
+
+model Report {
+  id                String          @id @default(uuid())
+  name              String
+  description       String?
+  code              String?
+  frequency         ReportFrequency @default(MONTHLY)
+  defaultDepartment String?
+  active            Boolean         @default(true)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  assignments ReportAssignment[]
+
+  @@map("reports")
+}
+
+model ReportAssignment {
+  id           String   @id @default(uuid())
+  reportId     String
+  userId       String
+  picId        String?
+  reviewerId   String?
+  targetFinal  String? // e.g. "2", "5", "10 & 31"
+  targetSubmit String? // e.g. "5", "9", "10"
+  meetingDate  String? // e.g. "12", "N/A"
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  report   Report         @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  user     User           @relation("AssigneeReports", fields: [userId], references: [id], onDelete: Cascade)
+  pic      User?          @relation("PicReports", fields: [picId], references: [id], onDelete: SetNull)
+  reviewer User?          @relation("ReviewerReports", fields: [reviewerId], references: [id], onDelete: SetNull)
+  periods  ReportPeriod[]
+
+  @@map("report_assignments")
+}
+
+model ReportPeriod {
+  id             String       @id @default(uuid())
+  assignmentId   String
+  periodLabel    String // e.g. "January 2026", "Q1 2026"
+  periodStart    DateTime
+  periodEnd      DateTime
+  deadlineFinal  DateTime?
+  deadlineSubmit DateTime
+  meetingDate    DateTime?
+  status         PeriodStatus @default(PENDING)
+  generatedAt    DateTime     @default(now())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  assignment    ReportAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  submissions   Submission[]
+  notifications Notification[]
+
+  @@unique([assignmentId, periodLabel])
+  @@index([status])
+  @@index([deadlineSubmit])
+  @@map("report_periods")
+}
+
+model Submission {
+  id             String           @id @default(uuid())
+  reportPeriodId String
+  submittedById  String
+  submittedAt    DateTime         @default(now())
+  status         SubmissionStatus @default(SUBMITTED)
+  version        Int              @default(1)
+  fileName       String
+  fileUrl        String?
+  fileSize       Int?
+  mimeType       String?
+  blobUrl        String?
+  blobPath       String?
+  notes          String?
+  reviewNotes    String?
+  reviewedById   String?
+  reviewedAt     DateTime?
+
+  // OneDrive future integration fields (nullable)
+  onedriveFileId   String?
+  onedriveFolderId String?
+  onedriveUrl      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reportPeriod ReportPeriod @relation(fields: [reportPeriodId], references: [id], onDelete: Cascade)
+  submittedBy  User         @relation("UserSubmissions", fields: [submittedById], references: [id], onDelete: Cascade)
+  reviewedBy   User?        @relation("UserReviewedSubmissions", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([reportPeriodId])
+  @@index([submittedById, submittedAt])
+  @@index([status, submittedAt])
+  @@map("submissions")
+}
+
+model Notification {
+  id              String           @id @default(uuid())
+  userId          String
+  reportPeriodId  String?
+  type            NotificationType
+  title           String
+  message         String
+  read            Boolean          @default(false)
+  sentAt          DateTime         @default(now())
+  escalationLevel Int              @default(1) // 1: User, 2: User+PIC, 3: Overdue User+PIC, 4: Management
+  createdAt       DateTime         @default(now())
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reportPeriod ReportPeriod? @relation(fields: [reportPeriodId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+  @@index([reportPeriodId, type])
+  @@map("notifications")
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  action     String // e.g. "TASK_OPENED", "TASK_STARTED", "TASK_SUBMITTED", "REVISION_REQUESTED", "TASK_APPROVED"
+  entityType String // "REPORT", "ASSIGNMENT", "PERIOD", "SUBMISSION", "USER"
+  entityId   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
