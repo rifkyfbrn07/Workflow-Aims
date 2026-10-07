@@ -3,6 +3,8 @@ import { getAllUsers } from "@/services/user-service";
 import { MasterUsersClient } from "@/components/features/MasterUsersClient";
 import { Users } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function MasterUsersPage() {
   const users = await getAllUsers();
 

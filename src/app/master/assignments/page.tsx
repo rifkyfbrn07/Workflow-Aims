@@ -5,6 +5,8 @@ import { getAllReports } from "@/services/report-service";
 import { MasterAssignmentsClient } from "@/components/features/MasterAssignmentsClient";
 import { UserCheck } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function MasterAssignmentsPage() {
   const [assignments, users, reports] = await Promise.all([
     getAllAssignments(),

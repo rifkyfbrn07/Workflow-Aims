@@ -16,6 +16,8 @@ import {
   Calendar,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function HistoryAuditPage() {
   const [activities, submissions] = await Promise.all([
     getActivityLogs({ limit: 60 }),

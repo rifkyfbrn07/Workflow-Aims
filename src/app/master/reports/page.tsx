@@ -3,6 +3,8 @@ import { getAllReports } from "@/services/report-service";
 import { MasterReportsClient } from "@/components/features/MasterReportsClient";
 import { FileText } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function MasterReportsPage() {
   const reports = await getAllReports();
 

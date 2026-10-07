@@ -3,6 +3,8 @@ import { getReportPeriods } from "@/services/period-service";
 import { CalendarView } from "@/components/features/CalendarView";
 import { Calendar } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function KalenderPage() {
   const { periods } = await getReportPeriods({ limit: 400 });
 

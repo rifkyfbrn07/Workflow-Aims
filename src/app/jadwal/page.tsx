@@ -6,6 +6,8 @@ import { JadwalTableClient } from "@/components/features/JadwalTableClient";
 import { ProgramWorkMatrix } from "@/components/features/ProgramWorkMatrix";
 import { CalendarDays, Download, Layers, TableProperties } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function JadwalPage() {
   const currentUser = await getCurrentUser();
   const [{ periods }, matrixData] = await Promise.all([

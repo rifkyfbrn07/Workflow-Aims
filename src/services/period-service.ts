@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { PeriodStatus, ReportFrequency } from "@prisma/client";
+import { PeriodStatus, ReportFrequency, UserRole } from "@prisma/client";
 import { calculateDeadlineDate, syncPeriodStatuses } from "./deadline-service";
 import { MONTH_CODES, MONTH_NAMES } from "@/lib/constants";
 import { logActivity } from "./activity-service";
@@ -124,6 +124,8 @@ export interface PeriodFilterOptions {
   userId?: string;
   picId?: string;
   reviewerId?: string;
+  scopeUserId?: string;
+  scopeRole?: UserRole | string;
   status?: PeriodStatus | string;
   frequency?: ReportFrequency | string;
   department?: string;
@@ -148,14 +150,30 @@ export async function getReportPeriods(options: PeriodFilterOptions = {}) {
   // Filter on assignment relations
   const assignmentWhere: Record<string, any> = {};
 
-  if (options.userId && options.userId !== "ALL") {
-    assignmentWhere.userId = options.userId;
-  }
-  if (options.picId && options.picId !== "ALL") {
-    assignmentWhere.picId = options.picId;
-  }
-  if (options.reviewerId && options.reviewerId !== "ALL") {
-    assignmentWhere.reviewerId = options.reviewerId;
+  if (options.scopeUserId && options.scopeRole) {
+    if (options.scopeRole === "USER") {
+      assignmentWhere.userId = options.scopeUserId;
+    } else if (options.scopeRole === "PIC") {
+      assignmentWhere.OR = [
+        { picId: options.scopeUserId },
+        { userId: options.scopeUserId },
+      ];
+    } else if (options.scopeRole === "REVIEWER") {
+      assignmentWhere.OR = [
+        { reviewerId: options.scopeUserId },
+        { userId: options.scopeUserId },
+      ];
+    }
+  } else {
+    if (options.userId && options.userId !== "ALL") {
+      assignmentWhere.userId = options.userId;
+    }
+    if (options.picId && options.picId !== "ALL") {
+      assignmentWhere.picId = options.picId;
+    }
+    if (options.reviewerId && options.reviewerId !== "ALL") {
+      assignmentWhere.reviewerId = options.reviewerId;
+    }
   }
 
   if (options.department && options.department !== "ALL") {

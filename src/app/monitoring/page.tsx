@@ -3,6 +3,8 @@ import { getReportPeriods } from "@/services/period-service";
 import { MonitoringMatrixClient } from "@/components/features/MonitoringMatrixClient";
 import { Layers } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function MonitoringPage() {
   const { periods } = await getReportPeriods({ limit: 400 });
 

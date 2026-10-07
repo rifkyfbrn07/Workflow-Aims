@@ -4,15 +4,16 @@ import { getReportPeriods } from "@/services/period-service";
 import { PekerjaanClient } from "@/components/features/PekerjaanClient";
 import { CheckSquare } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function PekerjaanSayaPage() {
   const currentUser = await getCurrentUser();
 
-  // If user is Admin or PIC, they can see all or their assigned items.
-  // For standard user, filter by their userId.
-  const filterOptions =
-    currentUser?.role === "ADMIN"
-      ? { limit: 200 }
-      : { userId: currentUser?.id, limit: 200 };
+  const filterOptions = {
+    scopeUserId: currentUser?.id,
+    scopeRole: currentUser?.role,
+    limit: 200,
+  };
 
   const { periods } = await getReportPeriods(filterOptions);
 

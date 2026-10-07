@@ -25,6 +25,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { isToday, isYesterday } from "date-fns";
 
+export const dynamic = "force-dynamic";
+
 export default async function NotifikasiPage() {
   const currentUser = await getCurrentUser();
   const notifications = currentUser
