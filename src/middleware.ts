@@ -5,39 +5,36 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionToken = request.cookies.get("worktrack_session")?.value;
 
-  // Static files, Next.js internal paths, API routes, or images
-  if (
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/api") ||
-    pathname.startsWith("/favicon.ico") ||
-    pathname.includes(".")
-  ) {
-    return NextResponse.next();
-  }
-
   const isLoginPage = pathname === "/login";
 
-  // Case 1: Unauthenticated user trying to access protected routes
+  // Case 1: Unauthenticated user trying to access protected routes or root
   if (!sessionToken && !isLoginPage) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/login";
     return NextResponse.redirect(loginUrl);
   }
 
   // Case 2: Authenticated user accessing /login or root /
   if (sessionToken && (isLoginPage || pathname === "/")) {
-    const dashboardUrl = new URL("/dashboard", request.url);
+    const dashboardUrl = request.nextUrl.clone();
+    dashboardUrl.pathname = "/dashboard";
     return NextResponse.redirect(dashboardUrl);
-  }
-
-  // Case 3: Root / redirect for unauthenticated user
-  if (!sessionToken && pathname === "/") {
-    const loginUrl = new URL("/login", request.url);
-    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     * - static assets (.svg, .png, .jpg, .jpeg, .gif, .webp, .ico, .woff, .woff2)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2)$).*)",
+  ],
 };
+
