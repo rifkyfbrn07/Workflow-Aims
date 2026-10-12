@@ -181,20 +181,20 @@ export function PekerjaanDetailClient({
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Top Breadcrumb & Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div className="space-y-1">
           <Link
             href="/pekerjaan"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Kembali ke Pekerjaan Saya</span>
           </Link>
           <div className="flex items-center gap-2.5 pt-1">
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#008651] font-bold text-xs border border-emerald-200">
+            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-[#008651] dark:text-emerald-400 font-bold text-xs border border-emerald-200 dark:border-emerald-800">
               Periode: {period.periodLabel}
             </span>
-            <h1 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
               {report.name}
             </h1>
           </div>
@@ -212,9 +212,9 @@ export function PekerjaanDetailClient({
               size="sm"
               disabled={starting}
               onClick={handleStartWork}
-              className="gap-1.5 border-slate-300 font-semibold"
+              className="gap-1.5 border-slate-300 dark:border-slate-700 font-semibold"
             >
-              <Play className="h-3.5 w-3.5 text-[#0055A5]" />
+              <Play className="h-3.5 w-3.5 text-[#0055A5] dark:text-blue-400" />
               <span>Mulai Kerjakan</span>
             </Button>
           )}
@@ -255,38 +255,38 @@ export function PekerjaanDetailClient({
         <div
           className={`rounded-xl border p-5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
             timeLeft.isOverdue
-              ? "bg-red-50/40 border-red-200 text-red-900"
-              : "bg-white border-slate-200 text-slate-900"
+              ? "bg-red-50/40 dark:bg-red-950/30 border-red-200 dark:border-red-900/60 text-red-900 dark:text-red-200"
+              : "bg-white dark:bg-[#0F172A] border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100"
           }`}
         >
           <div>
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#008651] animate-ping" />
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 {timeLeft.isOverdue ? "Pekerjaan Melewati Batas Waktu (Overdue)" : "Sisa Waktu Menuju Deadline Submit"}
               </p>
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              Batas waktu: <strong className="text-slate-900">{formatDateIndo(period.deadlineSubmit)} • 17:00 WIB</strong>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              Batas waktu: <strong className="text-slate-900 dark:text-slate-100">{formatDateIndo(period.deadlineSubmit)} • 17:00 WIB</strong>
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2.5 min-w-[64px] shadow-2xs">
+            <div className="flex flex-col items-center bg-slate-900 dark:bg-slate-950 border border-transparent dark:border-slate-800 text-white rounded-lg p-2.5 min-w-[64px] shadow-2xs">
               <span className="text-xl font-black font-mono leading-none">
                 {String(timeLeft.days).padStart(2, "0")}
               </span>
               <span className="text-[9px] uppercase font-bold text-slate-400 mt-1 tracking-wider">Days</span>
             </div>
             <span className="text-lg font-bold text-slate-400">:</span>
-            <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2.5 min-w-[64px] shadow-2xs">
+            <div className="flex flex-col items-center bg-slate-900 dark:bg-slate-950 border border-transparent dark:border-slate-800 text-white rounded-lg p-2.5 min-w-[64px] shadow-2xs">
               <span className="text-xl font-black font-mono leading-none">
                 {String(timeLeft.hours).padStart(2, "0")}
               </span>
               <span className="text-[9px] uppercase font-bold text-slate-400 mt-1 tracking-wider">Hours</span>
             </div>
             <span className="text-lg font-bold text-slate-400">:</span>
-            <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2.5 min-w-[64px] shadow-2xs">
+            <div className="flex flex-col items-center bg-slate-900 dark:bg-slate-950 border border-transparent dark:border-slate-800 text-white rounded-lg p-2.5 min-w-[64px] shadow-2xs">
               <span className="text-xl font-black font-mono leading-none">
                 {String(timeLeft.minutes).padStart(2, "0")}
               </span>

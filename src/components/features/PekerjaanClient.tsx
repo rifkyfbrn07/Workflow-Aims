@@ -144,7 +144,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
   return (
     <div className="space-y-4">
       {/* Search & Month Filter Bar */}
-      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-3">
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] p-4 shadow-2xs space-y-3">
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <div className="relative flex-1 w-full">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
@@ -153,16 +153,16 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Cari nama laporan, kode, atau PIC..."
-              className="pl-9 text-xs h-9 bg-slate-50/50"
+              className="pl-9 text-xs h-9 bg-slate-50/50 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-100"
             />
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto">
-            <span className="text-xs font-semibold text-slate-500 shrink-0">Periode:</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0">Periode:</span>
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="w-full sm:w-48 h-9 px-3 text-xs rounded-md border border-slate-200 bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-[#008651]"
+              className="w-full sm:w-48 h-9 px-3 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-semibold text-slate-800 dark:text-slate-100 focus:ring-1 focus:ring-[#008651]"
             >
               <option value="ALL">Semua Periode (2026)</option>
               {uniqueMonths.map((m) => (
@@ -175,7 +175,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
         </div>
 
         {/* Status Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-100">
+        <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
           {[
             { label: "Semua", value: "ALL", count: counts.all },
             { label: "Belum Dikerjakan", value: "PENDING", count: counts.pending },
@@ -193,7 +193,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
                 activeTab === tab.value
                   ? "bg-[#008651] text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200/80"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-700"
               }`}
             >
               <span>{tab.label}</span>
@@ -202,10 +202,10 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
                   activeTab === tab.value
                     ? "bg-[#006837] text-white"
                     : tab.isDanger
-                    ? "bg-red-100 text-red-700"
+                    ? "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400"
                     : tab.isWarning
-                    ? "bg-amber-100 text-amber-800"
-                    : "bg-slate-200/80 text-slate-700"
+                    ? "bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400"
+                    : "bg-slate-200/80 dark:bg-slate-700 text-slate-700 dark:text-slate-300"
                 }`}
               >
                 {tab.count}
@@ -216,11 +216,11 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
       </div>
 
       {/* Modern Operational Work Table */}
-      <div className="rounded-xl border border-slate-200 bg-white shadow-2xs overflow-hidden">
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-900 text-white font-semibold uppercase tracking-wider text-[11px]">
+              <tr className="bg-slate-900 dark:bg-[#1E293B] text-white font-semibold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-3 w-12 text-center">No</th>
                 <th className="py-3 px-4 min-w-[220px]">Pekerjaan / Laporan</th>
                 <th className="py-3 px-3 min-w-[110px]">Periode</th>
@@ -230,7 +230,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
                 <th className="py-3 px-3 text-right min-w-[160px]">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
               {filteredTasks.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="p-4">
@@ -254,7 +254,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
                   return (
                     <tr
                       key={t.id}
-                      className="hover:bg-slate-50 transition-colors border-b border-slate-100"
+                      className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800"
                     >
                       <td className="py-3 px-3 text-center text-slate-400 font-mono">
                         {idx + 1}
@@ -263,7 +263,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
                       <td className="py-3 px-4">
                         <Link
                           href={`/pekerjaan/${t.id}`}
-                          className="font-bold text-slate-900 hover:text-[#008651] block leading-snug"
+                          className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#008651] dark:hover:text-[#00A86B] block leading-snug"
                         >
                           {t.assignment.report.name}
                         </Link>
@@ -274,18 +274,18 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
                         )}
                       </td>
 
-                      <td className="py-3 px-3 font-semibold text-slate-800">
+                      <td className="py-3 px-3 font-semibold text-slate-800 dark:text-slate-200">
                         {t.periodLabel}
                       </td>
 
                       <td className="py-3 px-3 space-y-0.5">
-                        <div className="font-semibold text-slate-900">
+                        <div className="font-semibold text-slate-900 dark:text-slate-100">
                           {formatDateIndo(t.deadlineSubmit)} • 17:00
                         </div>
                         <CountdownBadge deadline={t.deadlineSubmit} status={t.status} />
                       </td>
 
-                      <td className="py-3 px-3 font-medium text-slate-800">
+                      <td className="py-3 px-3 font-medium text-slate-800 dark:text-slate-200">
                         {t.assignment.pic?.name || "-"}
                       </td>
 
@@ -299,10 +299,10 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
                             <button
                               onClick={() => handleStartWork(t.id)}
                               disabled={startingId === t.id}
-                              className="px-2.5 py-1 rounded text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center gap-1 border border-slate-200"
+                              className="px-2.5 py-1 rounded text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors flex items-center gap-1 border border-slate-200 dark:border-slate-700"
                               title="Tandai mulai dikerjakan"
                             >
-                              <Play className="h-3 w-3 text-[#0055A5]" />
+                              <Play className="h-3 w-3 text-[#0055A5] dark:text-blue-400" />
                               <span>Mulai</span>
                             </button>
                           )}
@@ -320,7 +320,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
 
                           <Link
                             href={`/pekerjaan/${t.id}`}
-                            className="p-1 rounded text-slate-400 hover:text-slate-800 hover:bg-slate-100"
+                            className="p-1 rounded text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                             title="Buka detail"
                           >
                             <Eye className="h-4 w-4" />

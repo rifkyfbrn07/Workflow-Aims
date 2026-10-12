@@ -1,12 +1,20 @@
 import { prisma } from "@/lib/prisma";
-import { PeriodStatus } from "@prisma/client";
+import { PeriodStatus, UserRole } from "@prisma/client";
 import { syncPeriodStatuses } from "./deadline-service";
 import { MONTH_NAMES } from "@/lib/constants";
 
-export async function getDashboardStats() {
+export interface RoleDashboardContext {
+  userId?: string;
+  role?: UserRole;
+  department?: string | null;
+}
+
+export async function getDashboardStats(context?: RoleDashboardContext) {
   await syncPeriodStatuses();
 
   const now = new Date();
+  const userId = context?.userId;
+  const role = context?.role;
 
   const [
     totalPeriods,
@@ -21,6 +29,10 @@ export async function getDashboardStats() {
     criticalOverdue,
     recentSubmissions,
     recentActivities,
+    // Admin Master counts
+    totalReportsCount,
+    totalUsersCount,
+    totalAssignmentsCount,
   ] = await Promise.all([
     prisma.reportPeriod.count(),
     prisma.reportPeriod.count({ where: { status: PeriodStatus.PENDING } }),
@@ -31,7 +43,7 @@ export async function getDashboardStats() {
     prisma.reportPeriod.count({ where: { status: PeriodStatus.APPROVED } }),
     prisma.reportPeriod.count({ where: { status: PeriodStatus.OVERDUE } }),
 
-    // Top 8 upcoming deadlines (not completed)
+    // Top 8 upcoming deadlines enterprise-wide
     prisma.reportPeriod.findMany({
       where: {
         status: {
@@ -54,7 +66,7 @@ export async function getDashboardStats() {
       take: 8,
     }),
 
-    // Overdue list
+    // Overdue list enterprise-wide
     prisma.reportPeriod.findMany({
       where: {
         status: PeriodStatus.OVERDUE,
@@ -87,7 +99,7 @@ export async function getDashboardStats() {
         },
       },
       orderBy: { submittedAt: "desc" },
-      take: 5,
+      take: 6,
     }),
 
     // Recent activity log
@@ -98,17 +110,129 @@ export async function getDashboardStats() {
       orderBy: { createdAt: "desc" },
       take: 8,
     }),
+
+    prisma.report.count({ where: { active: true } }),
+    prisma.user.count({ where: { active: true } }),
+    prisma.reportAssignment.count({ where: { active: true } }),
   ]);
 
-  // Distribution for Pie / Donut Chart
+  // Role-specific data fetching
+  let userSpecificData: any = null;
+
+  if (userId && role === UserRole.USER) {
+    const [myPending, myOverdue, myRevisions, myApprovedCount, myTotalAssigned] = await Promise.all([
+      prisma.reportPeriod.findMany({
+        where: {
+          assignment: { userId },
+          status: { in: [PeriodStatus.PENDING, PeriodStatus.IN_PROGRESS] },
+        },
+        include: {
+          assignment: { include: { report: true, pic: true } },
+        },
+        orderBy: { deadlineSubmit: "asc" },
+        take: 6,
+      }),
+      prisma.reportPeriod.findMany({
+        where: {
+          assignment: { userId },
+          status: PeriodStatus.OVERDUE,
+        },
+        include: {
+          assignment: { include: { report: true, pic: true } },
+        },
+        orderBy: { deadlineSubmit: "asc" },
+        take: 6,
+      }),
+      prisma.reportPeriod.findMany({
+        where: {
+          assignment: { userId },
+          status: PeriodStatus.REVISION,
+        },
+        include: {
+          assignment: { include: { report: true, pic: true } },
+          submissions: { orderBy: { version: "desc" }, take: 1 },
+        },
+        orderBy: { updatedAt: "desc" },
+        take: 4,
+      }),
+      prisma.reportPeriod.count({
+        where: { assignment: { userId }, status: PeriodStatus.APPROVED },
+      }),
+      prisma.reportPeriod.count({
+        where: { assignment: { userId } },
+      }),
+    ]);
+
+    userSpecificData = {
+      myPending,
+      myOverdue,
+      myRevisions,
+      myApprovedCount,
+      myTotalAssigned,
+    };
+  } else if (userId && (role === UserRole.PIC || role === UserRole.REVIEWER)) {
+    const [waitingReview, picOverdue, picRevisions] = await Promise.all([
+      prisma.reportPeriod.findMany({
+        where: {
+          OR: [
+            { assignment: { picId: userId } },
+            { assignment: { reviewerId: userId } },
+          ],
+          status: { in: [PeriodStatus.SUBMITTED, PeriodStatus.UNDER_REVIEW] },
+        },
+        include: {
+          assignment: { include: { report: true, user: true } },
+          submissions: { orderBy: { submittedAt: "desc" }, take: 1 },
+        },
+        orderBy: { deadlineSubmit: "asc" },
+        take: 8,
+      }),
+      prisma.reportPeriod.findMany({
+        where: {
+          OR: [
+            { assignment: { picId: userId } },
+            { assignment: { reviewerId: userId } },
+          ],
+          status: PeriodStatus.OVERDUE,
+        },
+        include: {
+          assignment: { include: { report: true, user: true } },
+        },
+        orderBy: { deadlineSubmit: "asc" },
+        take: 6,
+      }),
+      prisma.reportPeriod.findMany({
+        where: {
+          OR: [
+            { assignment: { picId: userId } },
+            { assignment: { reviewerId: userId } },
+          ],
+          status: PeriodStatus.REVISION,
+        },
+        include: {
+          assignment: { include: { report: true, user: true } },
+        },
+        orderBy: { updatedAt: "desc" },
+        take: 6,
+      }),
+    ]);
+
+    userSpecificData = {
+      waitingReview,
+      picOverdue,
+      picRevisions,
+    };
+  }
+
+  // Distribution for Charts
   const statusDistribution = [
-    { name: "Pending", count: pendingCount, color: "#64748B" },
-    { name: "In Progress", count: inProgressCount, color: "#0284C7" },
-    { name: "Submitted", count: submittedCount, color: "#7C3AED" },
+    { name: "Pending", count: pendingCount, color: "#94A3B8" },
+    { name: "In Progress", count: inProgressCount, color: "#0055A5" },
+    { name: "Submitted", count: submittedCount, color: "#6366F1" },
     { name: "Review", count: underReviewCount, color: "#D97706" },
-    { name: "Revision", count: revisionCount, color: "#DC2626" },
-    { name: "Approved", count: approvedCount, color: "#16A34A" },
-    { name: "Overdue", count: overdueCount, color: "#E11D48" },
+    { name: "Revision", count: revisionCount, color: "#EF4444" },
+    { name: "Approved", count: approvedCount, color: "#008651" },
+    { name: "Overdue", count: overdueCount, color: "#DC2626" },
   ];
 
   // Monthly trend of submissions (Jan - Dec 2026)
@@ -172,7 +296,7 @@ export async function getDashboardStats() {
       reportId: r.id,
       reportName: r.name,
       reportCode: r.code,
-      department: mainAssignment?.user.department || r.defaultDepartment || "SPBD",
+      department: mainAssignment?.user.department || r.defaultDepartment || "Operasional",
       picName: mainAssignment?.pic?.name || mainAssignment?.user?.name || "-",
       targetSubmitDay: mainAssignment?.targetSubmit || "5",
       periods: periodsMap,
@@ -189,7 +313,11 @@ export async function getDashboardStats() {
       revision: revisionCount,
       approved: approvedCount,
       overdue: overdueCount,
+      totalReports: totalReportsCount,
+      totalUsers: totalUsersCount,
+      totalAssignments: totalAssignmentsCount,
     },
+    userSpecificData,
     statusDistribution,
     monthlyTrend,
     upcomingDeadlines,
@@ -236,11 +364,10 @@ export async function getProgramMatrixData() {
       reportId: r.id,
       reportName: r.name,
       reportCode: r.code,
-      department: mainAssignment?.user.department || r.defaultDepartment || "SPBD",
+      department: mainAssignment?.user.department || r.defaultDepartment || "Operasional",
       picName: mainAssignment?.pic?.name || mainAssignment?.user?.name || "-",
       targetSubmitDay: mainAssignment?.targetSubmit || "5",
       periods: periodsMap,
     };
   });
 }
-

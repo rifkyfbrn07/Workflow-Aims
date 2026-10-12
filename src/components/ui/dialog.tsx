@@ -40,7 +40,7 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs"
+            className="fixed inset-0 bg-slate-900/60 dark:bg-black/75 backdrop-blur-xs"
             onClick={() => onOpenChange(false)}
           />
 
@@ -50,15 +50,15 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 6 }}
             transition={{ type: "spring", stiffness: 450, damping: 30 }}
-            className="relative z-50 w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-2xl"
+            className="relative z-50 w-full max-w-lg rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-6 shadow-2xl"
           >
             {children}
             <button
               onClick={() => onOpenChange(false)}
-              className="absolute right-4 top-4 rounded-md p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none"
+              className="absolute right-4 top-4 rounded-md p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none"
             >
               <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">Tutup</span>
             </button>
           </motion.div>
         </div>
@@ -68,17 +68,17 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
 }
 
 export function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex flex-col space-y-1.5 pb-4 border-b border-slate-100", className)} {...props} />;
+  return <div className={cn("flex flex-col space-y-1.5 pb-4 border-b border-slate-100 dark:border-slate-800", className)} {...props} />;
 }
 
 export function DialogTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h2 className={cn("text-base font-bold leading-none tracking-tight text-slate-900", className)} {...props} />;
+  return <h2 className={cn("text-base font-bold leading-none tracking-tight text-slate-900 dark:text-slate-100", className)} {...props} />;
 }
 
 export function DialogDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn("text-xs text-slate-500 mt-1 leading-relaxed", className)} {...props} />;
+  return <p className={cn("text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed", className)} {...props} />;
 }
 
 export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex items-center justify-end space-x-2 pt-4 border-t border-slate-100 mt-4", className)} {...props} />;
+  return <div className={cn("flex items-center justify-end space-x-2 pt-4 border-t border-slate-100 dark:border-slate-800 mt-4", className)} {...props} />;
 }

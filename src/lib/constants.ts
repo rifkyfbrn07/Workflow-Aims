@@ -1,6 +1,6 @@
-export const APP_NAME = "WorkTrack";
-export const APP_DESCRIPTION = "Sistem Monitoring Jadwal Laporan & Pekerjaan Berkala";
-export const COMPANY_NAME = "AIMS Corporation";
+export const APP_NAME = "Nusantara Regas";
+export const APP_DESCRIPTION = "Sistem Monitoring Jadwal Laporan & Kepatuhan Operasional";
+export const COMPANY_NAME = "PT Nusantara Regas";
 
 export const MONTH_NAMES = [
   "Januari",
@@ -51,6 +51,7 @@ export const ROLE_LABELS: Record<string, string> = {
   USER: "User / Assignee",
   PIC: "Person In Charge (PIC)",
   REVIEWER: "Reviewer",
+  MANAGEMENT: "Management",
 };
 
 export const FREQUENCY_LABELS: Record<string, string> = {

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import {
   PieChart,
   Pie,
@@ -13,9 +12,9 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Legend,
 } from "recharts";
-import { CheckCircle2, Clock, AlertTriangle, Layers, TrendingUp } from "lucide-react";
+import { Layers, TrendingUp, AlertCircle } from "lucide-react";
+import { useTheme } from "@/components/layout/ThemeProvider";
 
 interface DashboardChartsProps {
   statusDistribution: Array<{ name: string; count: number; color: string }>;
@@ -24,13 +23,10 @@ interface DashboardChartsProps {
 
 export function DashboardCharts({ statusDistribution, monthlyTrend }: DashboardChartsProps) {
   const [activePieIndex, setActivePieIndex] = useState<number | null>(null);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
-  // Group statusDistribution into 4 core operational buckets as specified in reference:
-  // 1. Realisation (Approved / Selesai) -> Pertamina Green
-  // 2. In Progress (In Progress / Submitted / Review) -> Pertamina Blue / Sky Blue
-  // 3. Plan (Pending / Scheduled) -> Light Slate
-  // 4. Overdue (Terlambat) -> Red
-  const totalCount = statusDistribution.reduce((acc, curr) => acc + curr.count, 0) || 1;
+  const totalCount = statusDistribution.reduce((acc, curr) => acc + curr.count, 0);
 
   const approvedCount =
     statusDistribution.find((s) => s.name === "Approved")?.count || 0;
@@ -44,116 +40,116 @@ export function DashboardCharts({ statusDistribution, monthlyTrend }: DashboardC
     statusDistribution.find((s) => s.name === "Overdue")?.count || 0;
 
   const programStatusData = [
-    { name: "Realisation", count: approvedCount, color: "#008651", label: "Realisasi Selesai" },
-    { name: "In Progress", count: inProgressCount, color: "#0055A5", label: "Sedang Dikerjakan" },
-    { name: "Plan", count: pendingCount, color: "#94A3B8", label: "Rencana (Plan)" },
-    { name: "Overdue", count: overdueCount, color: "#DC2626", label: "Melewati Deadline" },
+    { name: "Realisasi Selesai", count: approvedCount, color: isDark ? "#10B981" : "#008651", label: "Approved" },
+    { name: "Sedang Berjalan", count: inProgressCount, color: isDark ? "#0284C7" : "#0055A5", label: "In Progress / Review" },
+    { name: "Rencana Terjadwal", count: pendingCount, color: isDark ? "#64748B" : "#94A3B8", label: "Plan" },
+    { name: "Melewati Deadline", count: overdueCount, color: isDark ? "#EF4444" : "#DC2626", label: "Overdue" },
   ].filter((item) => item.count >= 0);
 
-  // Transform monthlyTrend into Target vs Realisasi
   const targetVsRealisasiData = monthlyTrend.map((m) => {
-    // Target is typically the total assigned reports for that month (e.g. 20)
-    const target = m.total > 0 ? m.total : 20;
-    const realisasi = m.approved;
-    const inProgress = m.total - m.approved > 0 ? m.total - m.approved : 0;
     return {
       month: m.month,
-      Target: target,
-      Realisasi: realisasi,
-      Progres: inProgress,
+      Target: m.total,
+      Realisasi: m.approved,
+      Progres: Math.max(0, m.total - m.approved),
     };
   });
 
-  const realisationRate = Math.round((approvedCount / totalCount) * 100);
+  const totalTargetSubmissions = monthlyTrend.reduce((acc, curr) => acc + curr.total, 0);
+  const totalApprovedSubmissions = monthlyTrend.reduce((acc, curr) => acc + curr.approved, 0);
+
+  const realisationRate = totalCount > 0 ? Math.round((approvedCount / totalCount) * 100) : 0;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
       {/* 1. Status Program Donut Chart */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="lg:col-span-5 rounded-xl border border-slate-200 bg-white p-5 shadow-2xs flex flex-col justify-between"
-      >
+      <div className="lg:col-span-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs flex flex-col justify-between transition-colors">
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <Layers className="h-4 w-4 text-[#008651]" />
-              <span>Status Program Kerja</span>
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-2">
+              <Layers className="h-4 w-4 text-[#008651] dark:text-emerald-400" />
+              <span>Status Distribusi Program Kerja</span>
             </h2>
-            <span className="text-[10px] font-bold text-[#008651] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-mono">
+            <span className="text-[10px] font-bold text-[#008651] dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800 font-mono">
               2026
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Tingkat penyelesaian program operasional: <strong>{realisationRate}%</strong>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Tingkat penyelesaian program operasional: <strong className="text-slate-800 dark:text-slate-200">{realisationRate}%</strong>
           </p>
         </div>
 
-        {/* Donut with center text */}
-        <div className="relative h-56 w-full my-2">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={programStatusData}
-                dataKey="count"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                innerRadius={58}
-                outerRadius={84}
-                paddingAngle={3}
-                animationDuration={800}
-                onMouseEnter={(_, index) => setActivePieIndex(index)}
-                onMouseLeave={() => setActivePieIndex(null)}
-              >
-                {programStatusData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.color}
-                    stroke={activePieIndex === index ? "#0F172A" : "none"}
-                    strokeWidth={activePieIndex === index ? 2 : 0}
-                    className="cursor-pointer transition-all"
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(value: any, name: any) => [
-                  `${value} Laporan (${Math.round(((value as number) / totalCount) * 100)}%)`,
-                  name,
-                ]}
-                contentStyle={{
-                  backgroundColor: "#0F172A",
-                  borderRadius: "8px",
-                  color: "#fff",
-                  fontSize: "12px",
-                  border: "none",
-                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)",
-                  padding: "6px 10px",
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-
-          {/* Center text in donut */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-2xl font-black text-slate-900 tracking-tight leading-none">
-              {realisationRate}%
-            </span>
-            <span className="text-[10px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">
-              Realisasi
-            </span>
+        {/* Donut with center text or Empty State */}
+        {totalCount === 0 ? (
+          <div className="h-56 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs">
+            <AlertCircle className="h-6 w-6 mb-1 text-slate-300 dark:text-slate-600" />
+            <p>Belum ada data periode laporan aktif.</p>
           </div>
-        </div>
+        ) : (
+          <div className="relative h-56 w-full my-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={programStatusData}
+                  dataKey="count"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={58}
+                  outerRadius={84}
+                  paddingAngle={3}
+                  animationDuration={700}
+                  onMouseEnter={(_, index) => setActivePieIndex(index)}
+                  onMouseLeave={() => setActivePieIndex(null)}
+                >
+                  {programStatusData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      stroke={activePieIndex === index ? (isDark ? "#F8FAFC" : "#0F172A") : (isDark ? "#0F172A" : "#FFFFFF")}
+                      strokeWidth={activePieIndex === index ? 2 : 1}
+                      className="cursor-pointer transition-all"
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value: any, name: any) => [
+                    `${value} Periode (${totalCount > 0 ? Math.round(((value as number) / totalCount) * 100) : 0}%)`,
+                    name,
+                  ]}
+                  contentStyle={{
+                    backgroundColor: isDark ? "#090D16" : "#0F172A",
+                    borderRadius: "8px",
+                    color: "#fff",
+                    fontSize: "12px",
+                    border: isDark ? "1px solid #1E293B" : "none",
+                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)",
+                    padding: "6px 10px",
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+
+            {/* Center text in donut */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight leading-none">
+                {realisationRate}%
+              </span>
+              <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-wider">
+                Realisasi
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* 4-Item Legend Grid */}
-        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-slate-100 text-xs">
+        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
           {programStatusData.map((item) => {
-            const pct = Math.round((item.count / totalCount) * 100);
+            const pct = totalCount > 0 ? Math.round((item.count / totalCount) * 100) : 0;
             return (
               <div
                 key={item.name}
-                className="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-100 transition-colors hover:bg-slate-100/70"
+                className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-750 transition-colors hover:bg-slate-100/70 dark:hover:bg-slate-800"
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <div
@@ -161,19 +157,19 @@ export function DashboardCharts({ statusDistribution, monthlyTrend }: DashboardC
                     style={{ backgroundColor: item.color }}
                   />
                   <div className="min-w-0">
-                    <p className="font-bold text-slate-800 text-[11px] truncate leading-tight">
+                    <p className="font-bold text-slate-800 dark:text-slate-200 text-[11px] truncate leading-tight">
                       {item.name}
                     </p>
-                    <p className="text-[10px] text-slate-400 truncate leading-tight">
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate leading-tight">
                       {item.label}
                     </p>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="font-bold text-slate-900 text-xs block leading-tight">
+                  <span className="font-bold text-slate-900 dark:text-slate-100 text-xs block leading-tight">
                     {item.count}
                   </span>
-                  <span className="text-[9px] text-slate-400 block leading-tight font-mono">
+                  <span className="text-[9px] text-slate-400 dark:text-slate-500 block leading-tight font-mono">
                     {pct}%
                   </span>
                 </div>
@@ -181,32 +177,27 @@ export function DashboardCharts({ statusDistribution, monthlyTrend }: DashboardC
             );
           })}
         </div>
-      </motion.div>
+      </div>
 
       {/* 2. Target vs Realisasi Monthly Timeline Chart */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25, delay: 0.08 }}
-        className="lg:col-span-7 rounded-xl border border-slate-200 bg-white p-5 shadow-2xs flex flex-col justify-between"
-      >
+      <div className="lg:col-span-7 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs flex flex-col justify-between transition-colors">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-[#0055A5]" />
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-[#0055A5] dark:text-sky-400" />
               <span>Target vs Realisasi Bulanan</span>
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Perbandingan beban target vs laporan yang telah disetujui (Jan – Des 2026)
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Perbandingan beban jadwal laporan vs realisasi yang disetujui (Jan – Des 2026)
             </p>
           </div>
           <div className="flex items-center gap-3 text-xs">
-            <span className="flex items-center gap-1.5 text-slate-600 font-medium">
-              <span className="h-2.5 w-2.5 rounded bg-slate-300 inline-block" />
-              Target (Plan)
+            <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400 font-medium">
+              <span className="h-2.5 w-2.5 rounded bg-slate-300 dark:bg-slate-600 inline-block" />
+              Target Jadwal
             </span>
-            <span className="flex items-center gap-1.5 text-slate-600 font-semibold">
-              <span className="h-2.5 w-2.5 rounded bg-[#008651] inline-block" />
+            <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-semibold">
+              <span className="h-2.5 w-2.5 rounded bg-[#008651] dark:bg-emerald-500 inline-block" />
               Realisasi (Approved)
             </span>
           </div>
@@ -220,42 +211,43 @@ export function DashboardCharts({ statusDistribution, monthlyTrend }: DashboardC
               margin={{ top: 15, right: 10, left: -25, bottom: 0 }}
               barGap={3}
             >
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "#1E293B" : "#F1F5F9"} />
               <XAxis
                 dataKey="month"
-                tick={{ fontSize: 11, fill: "#64748B", fontWeight: 500 }}
+                tick={{ fontSize: 11, fill: isDark ? "#94A3B8" : "#64748B", fontWeight: 500 }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fontSize: 11, fill: "#64748B" }}
+                tick={{ fontSize: 11, fill: isDark ? "#94A3B8" : "#64748B" }}
                 axisLine={false}
                 tickLine={false}
+                allowDecimals={false}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#0F172A",
+                  backgroundColor: isDark ? "#090D16" : "#0F172A",
                   borderRadius: "8px",
                   color: "#fff",
                   fontSize: "12px",
-                  border: "none",
-                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)",
+                  border: isDark ? "1px solid #1E293B" : "none",
+                  boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)",
                   padding: "8px 12px",
                 }}
-                cursor={{ fill: "rgba(0, 134, 81, 0.05)" }}
+                cursor={{ fill: isDark ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 134, 81, 0.05)" }}
               />
               <Bar
                 dataKey="Target"
-                name="Target (Plan)"
-                fill="#CBD5E1"
+                name="Target Jadwal"
+                fill={isDark ? "#334155" : "#CBD5E1"}
                 radius={[3, 3, 0, 0]}
                 maxBarSize={16}
                 animationDuration={600}
               />
               <Bar
                 dataKey="Realisasi"
-                name="Realisasi (Approved)"
-                fill="#008651"
+                name="Realisasi Disetujui"
+                fill={isDark ? "#10B981" : "#008651"}
                 radius={[3, 3, 0, 0]}
                 maxBarSize={16}
                 animationDuration={800}
@@ -264,13 +256,13 @@ export function DashboardCharts({ statusDistribution, monthlyTrend }: DashboardC
           </ResponsiveContainer>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-100">
-          <span>* Sinkronisasi data real-time dari PostgreSQL AIMS.</span>
-          <span className="font-semibold text-[#008651]">
-            Status Operasional: Stabil
+        <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <span>Total Target: {totalTargetSubmissions} Berkas • Realisasi: {totalApprovedSubmissions} Disetujui</span>
+          <span className="font-semibold text-[#008651] dark:text-emerald-400">
+            Kepatuhan Operasional: {totalTargetSubmissions > 0 ? Math.round((totalApprovedSubmissions / totalTargetSubmissions) * 100) : 0}%
           </span>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -1,74 +1,124 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
 import officialLogo from "@/image/WhatsApp Image 2026-10-05 at 13.36.35.jpeg";
 
 export function Preloader() {
-  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Show on initial load for a smooth corporate greeting
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 700);
+    // Only run on initial session or page entry to avoid interrupting navigation
+    const hasSeen = sessionStorage.getItem("nr_preloader_dismissed");
+    if (hasSeen === "true") {
+      setVisible(false);
+      return;
+    }
 
-    return () => clearTimeout(timer);
+    setMounted(true);
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      sessionStorage.setItem("nr_preloader_dismissed", "true");
+      setVisible(false);
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          sessionStorage.setItem("nr_preloader_dismissed", "true");
+          setVisible(false);
+        },
+      });
+
+      tl.fromTo(
+        logoRef.current,
+        { opacity: 0, scale: 0.94, y: 10 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "power2.out" }
+      )
+        .fromTo(
+          textRef.current,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" },
+          "-=0.2"
+        )
+        .fromTo(
+          progressRef.current,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.5, ease: "power1.inOut" },
+          "-=0.1"
+        )
+        .to(containerRef.current, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.inOut",
+          delay: 0.1,
+        });
+    }, containerRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
+  if (!visible) return null;
+
   return (
-    <AnimatePresence>
-      {loading && (
-        <motion.div
-          key="preloader"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-[#090D16] transition-colors select-none"
+      style={{ willChange: "opacity" }}
+      aria-live="polite"
+      aria-label="Memuat aplikasi operasional"
+    >
+      <div className="flex flex-col items-center max-w-sm px-6 text-center">
+        {/* Official Nusantara Regas Logo in a crisp high-contrast container */}
+        <div
+          ref={logoRef}
+          className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-2 shadow-lg border border-slate-200/80 dark:border-slate-700/80"
         >
-          <motion.div
-            initial={{ scale: 0.92, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="flex flex-col items-center"
-          >
-            <Image
-              src={officialLogo}
-              alt="Pertamina Nusantara Regas"
-              priority
-              className="h-20 w-auto object-contain"
-            />
+          <Image
+            src={officialLogo}
+            alt="Pertamina Nusantara Regas"
+            priority
+            className="h-full w-full object-contain"
+          />
+        </div>
 
-            <div className="mt-5 text-center">
-              <h1 className="text-base font-extrabold tracking-wider text-slate-900">
-                WORKTRACK
-              </h1>
-              <p className="text-[11px] font-medium tracking-wide text-slate-500 mt-0.5 uppercase">
-                Operational Monitoring System
-              </p>
-            </div>
+        {/* Operational Brand & Heading */}
+        <div ref={textRef} className="mt-5 space-y-1">
+          <div className="flex items-center justify-center gap-1.5">
+            <h1 className="text-sm font-black tracking-wider text-slate-900 dark:text-slate-100 uppercase">
+              NUSANTARA REGAS
+            </h1>
+            <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950/60 text-[#008651] dark:text-emerald-400 font-bold px-1.5 py-0.2 rounded font-mono border border-emerald-200 dark:border-emerald-800">
+              AIMS
+            </span>
+          </div>
+          <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            Sistem Monitoring Jadwal Laporan &amp; Kepatuhan Operasional
+          </p>
+        </div>
 
-            {/* Subtle Green Progress Line */}
-            <div className="mt-6 w-40 h-1 bg-slate-100 rounded-full overflow-hidden">
-              <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: "100%" }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 0.8,
-                  ease: "easeInOut",
-                }}
-                className="w-full h-full bg-[#008651] rounded-full"
-              />
-            </div>
+        {/* Progress Line */}
+        <div className="mt-6 w-44 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div
+            ref={progressRef}
+            className="w-full h-full bg-[#008651] dark:bg-emerald-400 origin-left"
+          />
+        </div>
 
-            <p className="text-[11px] text-slate-400 mt-3 font-medium">
-              Preparing your workspace...
-            </p>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3 font-mono">
+          Menyiapkan modul operasional...
+        </p>
+      </div>
+    </div>
   );
 }

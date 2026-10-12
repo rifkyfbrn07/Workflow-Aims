@@ -18,24 +18,24 @@ export default async function JadwalPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#008651] text-white shadow-xs">
               <CalendarDays className="h-4 w-4" />
             </div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
               Jadwal &amp; Matriks Program Kerja 2026
             </h1>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Matriks master jadwal laporan bulanan, PIC pelaksana, reviewer, target submit, dan monitoring cut-off operasional.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="text-xs text-slate-500 bg-white border border-slate-200 px-3 py-1.5 rounded-lg font-medium shadow-2xs">
-            Total Matriks: <strong className="text-slate-900">{periods.length}</strong> entri ({matrixData.length} Program)
+          <div className="text-xs text-slate-500 dark:text-slate-400 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg font-medium shadow-2xs">
+            Total Matriks: <strong className="text-slate-900 dark:text-slate-100">{periods.length}</strong> entri ({matrixData.length} Program)
           </div>
         </div>
       </div>
@@ -50,10 +50,10 @@ export default async function JadwalPage() {
       {/* 2. Interactive Searchable Table with Month/PIC/Dept Filters */}
       <div className="pt-2">
         <div className="mb-3">
-          <h2 className="text-sm font-bold text-slate-900 tracking-tight">
+          <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             Daftar Detail Jadwal per Periode
           </h2>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Pencarian spesifik berdasarkan bulan, departemen, PIC, dan status verifikasi
           </p>
         </div>

@@ -45,7 +45,7 @@ export function TabsList({ className, children }: { className?: string; children
   return (
     <div
       className={cn(
-        "inline-flex h-9 items-center justify-center rounded-lg bg-slate-100 p-1 text-slate-500",
+        "inline-flex h-9 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 p-1 text-slate-500 dark:text-slate-400",
         className
       )}
     >
@@ -77,8 +77,8 @@ export function TabsTrigger({
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-xs font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50",
         isActive
-          ? "bg-white text-slate-900 shadow-sm font-semibold"
-          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50",
+          ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm font-semibold"
+          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-700/50",
         className
       )}
     >
@@ -87,7 +87,9 @@ export function TabsTrigger({
         <span
           className={cn(
             "ml-1.5 rounded-full px-1.5 py-0.2 text-[10px] font-semibold",
-            isActive ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-700"
+            isActive
+              ? "bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900"
+              : "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300"
           )}
         >
           {badge}

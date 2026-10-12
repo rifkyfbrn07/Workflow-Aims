@@ -200,7 +200,7 @@ export function JadwalTableClient({
   return (
     <div className="space-y-4">
       {/* Search & Filter Bar */}
-      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-3">
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] p-4 shadow-2xs space-y-3">
         <div className="flex flex-col md:flex-row gap-3">
           {/* Search Input */}
           <div className="relative flex-1">
@@ -213,20 +213,20 @@ export function JadwalTableClient({
                 setCurrentPage(1);
               }}
               placeholder="Cari nama laporan, PIC, user, reviewer, atau kode..."
-              className="pl-9 text-xs h-9 bg-slate-50/50"
+              className="pl-9 text-xs h-9 bg-slate-50/50 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-100"
             />
           </div>
 
           {/* Month Selector */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500 shrink-0">Bulan:</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0">Bulan:</span>
             <select
               value={selectedMonth}
               onChange={(e) => {
                 setSelectedMonth(e.target.value);
                 setCurrentPage(1);
               }}
-              className="h-9 px-3 py-1 text-xs rounded-md border border-slate-200 bg-white font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="h-9 px-3 py-1 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-600"
             >
               <option value="ALL">Semua Periode (2026)</option>
               {uniqueMonths.map((m) => (
@@ -239,14 +239,14 @@ export function JadwalTableClient({
 
           {/* Department Filter */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500 shrink-0">Departemen:</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0">Departemen:</span>
             <select
               value={selectedDept}
               onChange={(e) => {
                 setSelectedDept(e.target.value);
                 setCurrentPage(1);
               }}
-              className="h-9 px-3 py-1 text-xs rounded-md border border-slate-200 bg-white font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="h-9 px-3 py-1 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-600"
             >
               <option value="ALL">Semua Departemen</option>
               {uniqueDepartments.map((d) => (
@@ -259,14 +259,14 @@ export function JadwalTableClient({
 
           {/* PIC Filter */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500 shrink-0">PIC:</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0">PIC:</span>
             <select
               value={selectedPic}
               onChange={(e) => {
                 setSelectedPic(e.target.value);
                 setCurrentPage(1);
               }}
-              className="h-9 px-3 py-1 text-xs rounded-md border border-slate-200 bg-white font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+              className="h-9 px-3 py-1 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-600"
             >
               <option value="ALL">Semua PIC</option>
               {uniquePics.map((p) => (
@@ -279,8 +279,8 @@ export function JadwalTableClient({
         </div>
 
         {/* Status Filter Chips */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-100">
-          <span className="text-xs font-semibold text-slate-500 mr-1">Status:</span>
+        <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-1">Status:</span>
           {[
             { label: "Semua", value: "ALL" },
             { label: "Belum Dikerjakan", value: "PENDING" },
@@ -301,24 +301,24 @@ export function JadwalTableClient({
               className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
                 selectedStatus === tab.value
                   ? "bg-[#008651] text-white font-semibold shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
               }`}
             >
               {tab.label}
             </button>
           ))}
           <span className="ml-auto text-xs text-slate-400">
-            Menampilkan <strong>{filteredPeriods.length}</strong> data
+            Menampilkan <strong className="text-slate-700 dark:text-slate-300">{filteredPeriods.length}</strong> data
           </span>
         </div>
       </div>
 
       {/* Operational Data Table */}
-      <div className="rounded-xl border border-slate-200 bg-white shadow-2xs overflow-hidden">
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-900 text-white font-semibold uppercase tracking-wider text-[11px]">
+              <tr className="bg-slate-900 dark:bg-[#1E293B] text-white font-semibold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-3 w-12 text-center">No</th>
                 <th className="py-3 px-4 min-w-[220px]">Deskripsi Laporan</th>
                 <th className="py-3 px-3 min-w-[100px]">User / Dept</th>
@@ -333,11 +333,11 @@ export function JadwalTableClient({
                 <th className="py-3 px-3 text-right min-w-[130px]">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
               {paginatedPeriods.length === 0 ? (
                 <tr>
-                  <td colSpan={12} className="py-12 text-center text-slate-400">
-                    <FileSpreadsheet className="h-8 w-8 mx-auto mb-2 text-slate-300" />
+                  <td colSpan={12} className="py-12 text-center text-slate-400 dark:text-slate-500">
+                    <FileSpreadsheet className="h-8 w-8 mx-auto mb-2 text-slate-300 dark:text-slate-600" />
                     <p className="font-medium">Tidak ada data jadwal yang sesuai dengan filter.</p>
                   </td>
                 </tr>
@@ -356,16 +356,16 @@ export function JadwalTableClient({
                   return (
                     <tr
                       key={p.id}
-                      className="hover:bg-blue-50/30 transition-colors border-b border-slate-100/80"
+                      className="hover:bg-blue-50/30 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100/80 dark:border-slate-800/80"
                     >
-                      <td className="py-3 px-3 text-center text-slate-500 font-mono">
+                      <td className="py-3 px-3 text-center text-slate-500 dark:text-slate-400 font-mono">
                         {rowNumber}
                       </td>
 
-                      <td className="py-3 px-4 font-medium text-slate-900">
+                      <td className="py-3 px-4 font-medium text-slate-900 dark:text-slate-100">
                         <Link
                           href={`/pekerjaan/${p.id}`}
-                          className="hover:text-blue-600 hover:underline font-semibold block leading-snug"
+                          className="hover:text-blue-600 dark:hover:text-blue-400 hover:underline font-semibold block leading-snug"
                         >
                           {p.assignment.report.name}
                         </Link>
@@ -377,7 +377,7 @@ export function JadwalTableClient({
                       </td>
 
                       <td className="py-3 px-3">
-                        <span className="font-semibold text-slate-800 block">
+                        <span className="font-semibold text-slate-800 dark:text-slate-200 block">
                           {p.assignment.user.department || p.assignment.report.defaultDepartment || "SPBD"}
                         </span>
                         <span className="text-[10px] text-slate-400 truncate block max-w-[100px]">
@@ -385,29 +385,29 @@ export function JadwalTableClient({
                         </span>
                       </td>
 
-                      <td className="py-3 px-3 font-medium text-slate-800">
+                      <td className="py-3 px-3 font-medium text-slate-800 dark:text-slate-200">
                         {p.assignment.pic?.name || "-"}
                       </td>
 
-                      <td className="py-3 px-3 text-slate-600 font-medium">
+                      <td className="py-3 px-3 text-slate-600 dark:text-slate-400 font-medium">
                         {p.assignment.reviewer?.name || "-"}
                       </td>
 
                       <td className="py-3 px-3">
-                        <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold text-[11px]">
+                        <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-[11px]">
                           {p.periodLabel}
                         </span>
                       </td>
 
-                      <td className="py-3 px-2 text-center font-mono font-medium text-slate-700">
+                      <td className="py-3 px-2 text-center font-mono font-medium text-slate-700 dark:text-slate-300">
                         Tgl {p.assignment.targetFinal || "-"}
                       </td>
 
-                      <td className="py-3 px-2 text-center font-mono font-semibold text-blue-700">
+                      <td className="py-3 px-2 text-center font-mono font-semibold text-blue-700 dark:text-blue-400">
                         Tgl {p.assignment.targetSubmit || "5"}
                       </td>
 
-                      <td className="py-3 px-2 text-center font-mono text-slate-500">
+                      <td className="py-3 px-2 text-center font-mono text-slate-500 dark:text-slate-400">
                         {p.assignment.meetingDate && p.assignment.meetingDate !== "N/A"
                           ? `Tgl ${p.assignment.meetingDate}`
                           : "-"}
@@ -427,7 +427,7 @@ export function JadwalTableClient({
                           {p.status !== "APPROVED" && canSubmit && (
                             <button
                               onClick={() => setSubmitModalPeriod(p)}
-                              className="px-2 py-1 rounded text-[11px] font-semibold bg-emerald-50 text-[#008651] hover:bg-[#008651] hover:text-white transition-colors border border-emerald-200"
+                              className="px-2 py-1 rounded text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-[#008651] dark:text-emerald-400 hover:bg-[#008651] hover:text-white transition-colors border border-emerald-200 dark:border-emerald-800"
                               title="Submit Laporan"
                             >
                               <Send className="h-3 w-3 inline mr-1" />
@@ -439,7 +439,7 @@ export function JadwalTableClient({
                           {canReview && (
                             <button
                               onClick={() => handleOpenReview(p)}
-                              className="px-2 py-1 rounded text-[11px] font-semibold bg-amber-50 text-amber-800 hover:bg-amber-600 hover:text-white transition-colors border border-amber-200"
+                              className="px-2 py-1 rounded text-[11px] font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-400 hover:bg-amber-600 hover:text-white transition-colors border border-amber-200 dark:border-amber-800"
                               title="Review Submission"
                             >
                               <CheckCircle2 className="h-3 w-3 inline mr-1" />
@@ -450,7 +450,7 @@ export function JadwalTableClient({
                           {/* Detail Link */}
                           <Link
                             href={`/pekerjaan/${p.id}`}
-                            className="p-1 rounded text-slate-400 hover:text-slate-800 hover:bg-slate-100"
+                            className="p-1 rounded text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                             title="Buka Detail"
                           >
                             <Eye className="h-4 w-4" />
@@ -466,9 +466,9 @@ export function JadwalTableClient({
         </div>
 
         {/* Pagination Footer */}
-        <div className="flex items-center justify-between p-3 border-t border-slate-100 bg-slate-50/60 text-xs text-slate-500">
+        <div className="flex items-center justify-between p-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/60 text-xs text-slate-500 dark:text-slate-400">
           <span>
-            Halaman <strong>{currentPage}</strong> dari <strong>{totalPages}</strong> (Total {filteredPeriods.length} laporan)
+            Halaman <strong className="text-slate-800 dark:text-slate-200">{currentPage}</strong> dari <strong className="text-slate-800 dark:text-slate-200">{totalPages}</strong> (Total {filteredPeriods.length} laporan)
           </span>
 
           <div className="flex items-center gap-1">

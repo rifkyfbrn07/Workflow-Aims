@@ -93,36 +93,36 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: 40, scale: 0.9, transition: { duration: 0.15 } }}
                 transition={{ type: "spring", stiffness: 450, damping: 30 }}
-                className={`pointer-events-auto rounded-xl p-3.5 shadow-lg border text-xs flex items-start gap-3 bg-white ${
+                className={`pointer-events-auto rounded-xl p-3.5 shadow-lg border text-xs flex items-start gap-3 bg-white dark:bg-slate-900 ${
                   isSuccess
-                    ? "border-emerald-200 ring-1 ring-emerald-500/10"
+                    ? "border-emerald-200 dark:border-emerald-800 ring-1 ring-emerald-500/10"
                     : isWarning
-                    ? "border-amber-200 ring-1 ring-amber-500/10"
+                    ? "border-amber-200 dark:border-amber-800 ring-1 ring-amber-500/10"
                     : isError
-                    ? "border-red-200 ring-1 ring-red-500/10"
-                    : "border-blue-200 ring-1 ring-blue-500/10"
+                    ? "border-red-200 dark:border-red-800 ring-1 ring-red-500/10"
+                    : "border-blue-200 dark:border-blue-800 ring-1 ring-blue-500/10"
                 }`}
               >
                 {/* Icon Indicator */}
                 <div className="shrink-0 mt-0.5">
-                  {isSuccess && <CheckCircle2 className="h-4 w-4 text-[#008651]" />}
-                  {isWarning && <AlertTriangle className="h-4 w-4 text-[#D97706]" />}
-                  {isError && <XCircle className="h-4 w-4 text-[#DC2626]" />}
-                  {!isSuccess && !isWarning && !isError && <Info className="h-4 w-4 text-[#0055A5]" />}
+                  {isSuccess && <CheckCircle2 className="h-4 w-4 text-[#008651] dark:text-emerald-400" />}
+                  {isWarning && <AlertTriangle className="h-4 w-4 text-[#D97706] dark:text-amber-400" />}
+                  {isError && <XCircle className="h-4 w-4 text-[#DC2626] dark:text-red-400" />}
+                  {!isSuccess && !isWarning && !isError && <Info className="h-4 w-4 text-[#0055A5] dark:text-sky-400" />}
                 </div>
 
                 <div className="flex-1 min-w-0 pr-1">
                   {toast.title && (
-                    <p className="font-bold text-slate-900 tracking-tight leading-snug">
+                    <p className="font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-snug">
                       {toast.title}
                     </p>
                   )}
-                  <p className="text-slate-600 leading-snug mt-0.5">{toast.message}</p>
+                  <p className="text-slate-600 dark:text-slate-300 leading-snug mt-0.5">{toast.message}</p>
                 </div>
 
                 <button
                   onClick={() => removeToast(toast.id)}
-                  className="shrink-0 text-slate-400 hover:text-slate-700 p-0.5 rounded transition-colors"
+                  className="shrink-0 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5 rounded transition-colors"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>

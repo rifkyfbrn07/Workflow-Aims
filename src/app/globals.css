@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 40% 98%; /* #f8fafc slate-50 */
+    --foreground: 222.2 84% 4.9%; /* #020617 */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
@@ -24,6 +24,44 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 156 100% 26.3%;
     --radius: 0.5rem;
+
+    /* Corporate tokens */
+    --pertamina-green: #008651;
+    --pertamina-blue: #0055A5;
+    --pertamina-red: #DC2626;
+    --surface-app: #F8FAFC;
+    --surface-card: #FFFFFF;
+    --surface-border: #E2E8F0;
+  }
+
+  .dark {
+    --background: 222 47% 7%; /* #0B1120 deep navy / charcoal */
+    --foreground: 210 40% 98%; /* #F8FAFC */
+    --card: 222 47% 11%; /* #0F172A slate-900 surface */
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 156 80% 36%; /* Refined bright Pertamina green for dark surfaces */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 209 85% 42%; /* Refined Pertamina blue for dark surfaces */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 217 33% 16%; /* slate-800 */
+    --muted-foreground: 215 20% 65%; /* slate-400 */
+    --accent: 217 33% 16%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 33% 18%; /* Subtle slate border */
+    --input: 217 33% 18%;
+    --ring: 156 80% 36%;
+
+    /* Corporate tokens - dark */
+    --pertamina-green: #059669;
+    --pertamina-blue: #0284C7;
+    --pertamina-red: #EF4444;
+    --surface-app: #0B1120;
+    --surface-card: #0F172A;
+    --surface-border: #1E293B;
   }
 }
 
@@ -32,19 +70,19 @@
     @apply border-border;
   }
   body {
-    @apply bg-slate-50 text-slate-900 antialiased font-sans;
+    @apply bg-background text-foreground antialiased font-sans transition-colors duration-150;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
 
-/* Custom scrollbars */
+/* Custom corporate scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f8fafc;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -52,16 +90,24 @@
   border-radius: 4px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-/* Subtle corporate animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(3px); }
-  to { opacity: 1; transform: translateY(0); }
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.2s ease-out forwards;
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

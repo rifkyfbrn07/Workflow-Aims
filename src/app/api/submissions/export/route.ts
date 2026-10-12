@@ -11,5 +11,5 @@ export async function GET(request: Request) {
   const quote = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
   const rows = ["Employee,Email,Report,Period,Deadline,Submission Date,Status,PIC,Reviewer,File Name"];
   result.items.forEach((s) => rows.push([s.submittedBy.name, s.submittedBy.email, s.reportPeriod.assignment.report.name, s.reportPeriod.periodLabel, s.reportPeriod.deadlineSubmit.toISOString(), s.submittedAt.toISOString(), s.status, s.reportPeriod.assignment.pic?.name, s.reportPeriod.assignment.reviewer?.name, s.fileName].map(quote).join(",")));
-  return new NextResponse(rows.join("\n"), { headers: { "content-type": "text/csv; charset=utf-8", "content-disposition": "attachment; filename=WorkTrack_Submissions.csv" } });
+  return new NextResponse(rows.join("\n"), { headers: { "content-type": "text/csv; charset=utf-8", "content-disposition": "attachment; filename=NusantaraRegas_Submissions.csv" } });
 }
