@@ -68,8 +68,8 @@ export default async function NotifikasiPage() {
       <div className="space-y-2.5">
         <div className="flex items-center gap-2 px-1">
           <Calendar className="h-3.5 w-3.5 text-slate-400" />
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">{title}</h2>
-          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{title}</h2>
+          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
             {items.length}
           </span>
         </div>
@@ -84,20 +84,20 @@ export default async function NotifikasiPage() {
                 key={n.id}
                 className={`p-4 rounded-xl border transition-all flex items-start gap-3.5 ${
                   isUnread
-                    ? "bg-emerald-50/20 border-emerald-200/80 shadow-2xs"
-                    : "bg-white border-slate-200 shadow-2xs"
+                    ? "bg-emerald-50/20 dark:bg-emerald-950/20 border-emerald-200/80 dark:border-emerald-800/80 shadow-2xs"
+                    : "bg-white dark:bg-[#0F172A] border-slate-200 dark:border-slate-800 shadow-2xs"
                 }`}
               >
-                <div className="mt-0.5 p-2 rounded-lg bg-slate-50 border border-slate-100 shrink-0">
+                <div className="mt-0.5 p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shrink-0">
                   {getIcon(n.type)}
                 </div>
 
                 <div className="flex-1 space-y-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <h3 className="text-xs font-bold text-slate-900">{n.title}</h3>
+                      <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">{n.title}</h3>
                       {n.escalationLevel > 1 && (
-                        <span className="text-[9px] font-bold px-2 py-0.2 rounded-full bg-red-100 text-red-700 border border-red-200">
+                        <span className="text-[9px] font-bold px-2 py-0.2 rounded-full bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900">
                           Eskalasi Level {n.escalationLevel}
                         </span>
                       )}
@@ -107,13 +107,13 @@ export default async function NotifikasiPage() {
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed">{n.message}</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{n.message}</p>
 
                   <div className="pt-2 flex items-center justify-between gap-3 text-xs">
                     {period ? (
                       <Link
                         href={`/pekerjaan/${period.id}`}
-                        className="font-bold text-[#0055A5] hover:underline flex items-center gap-1 text-[11px]"
+                        className="font-bold text-[#0055A5] dark:text-blue-400 hover:underline flex items-center gap-1 text-[11px]"
                       >
                         <span>Buka {period.assignment.report.name} ({period.periodLabel})</span>
                         <ArrowRight className="h-3 w-3" />
@@ -127,7 +127,7 @@ export default async function NotifikasiPage() {
                         <input type="hidden" name="notificationId" value={n.id} />
                         <button
                           type="submit"
-                          className="text-[11px] text-slate-500 hover:text-slate-800 font-medium underline"
+                          className="text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium underline"
                         >
                           Tandai dibaca
                         </button>
@@ -146,15 +146,15 @@ export default async function NotifikasiPage() {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#008651] text-white shadow-2xs">
               <Bell className="h-4 w-4" />
             </div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">Pusat Notifikasi &amp; Reminder</h1>
+            <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">Pusat Notifikasi &amp; Reminder</h1>
           </div>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Pengingat tenggat waktu operasional (H-3, H-1, Hari H, Overdue) dan status persetujuan.
           </p>
         </div>
@@ -163,9 +163,9 @@ export default async function NotifikasiPage() {
           <form action={triggerDeadlineCheckFormAction}>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs transition-colors"
             >
-              <RefreshCw className="h-3.5 w-3.5 text-[#008651]" />
+              <RefreshCw className="h-3.5 w-3.5 text-[#008651] dark:text-emerald-400" />
               <span>Cek Reminder Sekarang</span>
             </button>
           </form>
@@ -187,10 +187,10 @@ export default async function NotifikasiPage() {
       {/* Notifications List Grouped */}
       <div className="space-y-6">
         {notifications.length === 0 ? (
-          <div className="py-16 text-center text-slate-400 bg-white rounded-xl border border-slate-200 shadow-2xs">
-            <Bell className="h-10 w-10 mx-auto mb-2 text-slate-300" />
-            <p className="font-bold text-slate-700">Tidak ada notifikasi saat ini.</p>
-            <p className="text-xs text-slate-400 mt-1">
+          <div className="py-16 text-center text-slate-400 dark:text-slate-500 bg-white dark:bg-[#0F172A] rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs">
+            <Bell className="h-10 w-10 mx-auto mb-2 text-slate-300 dark:text-slate-600" />
+            <p className="font-bold text-slate-700 dark:text-slate-300">Tidak ada notifikasi saat ini.</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
               Pengingat deadline akan muncul otomatis ketika mendekati jadwal cut-off.
             </p>
           </div>

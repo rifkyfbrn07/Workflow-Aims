@@ -26,17 +26,17 @@ export default async function HistoryAuditPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 dark:bg-slate-800 text-white shadow-sm">
               <History className="h-4 w-4" />
             </div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
               Riwayat Aktivitas &amp; Audit Trail
             </h1>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Rekam jejak seluruh aktivitas sistem: penugasan, pengerjaan, pengiriman file, permintaan revisi, dan persetujuan.
           </p>
         </div>
@@ -44,16 +44,16 @@ export default async function HistoryAuditPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Complete Activity Log Stream */}
-        <div className="lg:col-span-7 rounded-xl border border-slate-200 bg-white p-5 shadow-2xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Clock className="h-4 w-4 text-[#0055A5]" />
+        <div className="lg:col-span-7 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] p-5 shadow-2xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <Clock className="h-4 w-4 text-[#0055A5] dark:text-blue-400" />
               <span>Log Aktivitas Sistem (Real-Time)</span>
             </h2>
             <span className="text-xs text-slate-400">{activities.length} Entri</span>
           </div>
 
-          <div className="divide-y divide-slate-100 max-h-[600px] overflow-y-auto pr-1">
+          <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-[600px] overflow-y-auto pr-1">
             {activities.length === 0 ? (
               <p className="text-xs text-slate-400 py-10 text-center">Belum ada catatan aktivitas.</p>
             ) : (
@@ -61,23 +61,23 @@ export default async function HistoryAuditPage() {
                 const meta = (act.metadata as any) || {};
 
                 return (
-                  <div key={act.id} className="py-3 flex items-start gap-3 hover:bg-slate-50 px-2 rounded-lg transition-colors">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-white font-bold text-xs shrink-0 mt-0.5">
+                  <div key={act.id} className="py-3 flex items-start gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 px-2 rounded-lg transition-colors">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 dark:bg-slate-700 text-white font-bold text-xs shrink-0 mt-0.5">
                       {(act.user?.name || "S").charAt(0).toUpperCase()}
                     </div>
 
                     <div className="space-y-0.5 flex-1 min-w-0 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-slate-900 truncate">
+                        <span className="font-bold text-slate-900 dark:text-slate-100 truncate">
                           {act.user?.name || "Sistem"}
                         </span>
-                        <span className="text-[10px] text-slate-400 shrink-0 font-mono">
+                        <span className="text-[10px] text-slate-400 font-mono shrink-0">
                           {formatDateTimeIndo(act.createdAt)}
                         </span>
                       </div>
 
-                      <p className="text-slate-600 leading-snug">
-                        <span className="font-semibold text-slate-800">
+                      <p className="text-slate-600 dark:text-slate-300 leading-snug">
+                        <span className="font-semibold text-slate-800 dark:text-slate-200">
                           {act.action === "TASK_SUBMITTED" && "Submit pekerjaan"}
                           {act.action === "TASK_RESUBMITTED" && "Submit ulang (revisi)"}
                           {act.action === "TASK_APPROVED" && "Menyetujui (Approved) laporan"}
@@ -92,7 +92,7 @@ export default async function HistoryAuditPage() {
                       </p>
 
                       {meta.reviewNotes && (
-                        <p className="text-[11px] text-rose-700 bg-rose-50 p-1.5 rounded border border-rose-200 mt-1 italic">
+                        <p className="text-[11px] text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/40 p-1.5 rounded border border-rose-200 dark:border-rose-900 mt-1 italic">
                           Catatan: &quot;{meta.reviewNotes}&quot;
                         </p>
                       )}
@@ -105,10 +105,10 @@ export default async function HistoryAuditPage() {
         </div>
 
         {/* Right: Submission Versioning Trail */}
-        <div className="lg:col-span-5 rounded-xl border border-slate-200 bg-white p-5 shadow-2xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <FileSpreadsheet className="h-4 w-4 text-purple-600" />
+        <div className="lg:col-span-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] p-5 shadow-2xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <FileSpreadsheet className="h-4 w-4 text-purple-600 dark:text-purple-400" />
               <span>Riwayat Berkas &amp; Versi</span>
             </h2>
             <span className="text-xs text-slate-400">{submissions.length} Berkas</span>
@@ -118,29 +118,29 @@ export default async function HistoryAuditPage() {
             {submissions.map((sub) => (
               <div
                 key={sub.id}
-                className="p-3 rounded-lg border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 transition-colors space-y-1.5 text-xs"
+                className="p-3 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors space-y-1.5 text-xs"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-slate-900 truncate max-w-[200px]">
+                  <span className="font-bold text-slate-900 dark:text-slate-100 truncate max-w-[200px]">
                     {sub.reportPeriod.assignment.report.name}
                   </span>
                   <StatusBadge status={sub.status} size="sm" />
                 </div>
 
-                <div className="flex items-center justify-between text-slate-500 text-[11px]">
+                <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-[11px]">
                   <span>
                     {sub.reportPeriod.periodLabel} (v{sub.version})
                   </span>
                   <span>{formatDateTimeIndo(sub.submittedAt)}</span>
                 </div>
 
-                <div className="font-mono text-slate-700 text-[11px] truncate">
+                <div className="font-mono text-slate-700 dark:text-slate-300 text-[11px] truncate">
                   📄 {sub.fileName}
                 </div>
 
                 {sub.reviewedBy && (
-                  <div className="text-[11px] pt-1 border-t border-slate-200/60 text-slate-500">
-                    Direview oleh <strong>{sub.reviewedBy.name}</strong>
+                  <div className="text-[11px] pt-1 border-t border-slate-200/60 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                    Direview oleh <strong className="text-slate-700 dark:text-slate-300">{sub.reviewedBy.name}</strong>
                   </div>
                 )}
               </div>

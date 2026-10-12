@@ -115,39 +115,39 @@ export function SubmitModal({
       </DialogHeader>
 
       {/* Corporate Step Indicator */}
-      <div className="py-2 px-3 rounded-lg bg-slate-50 border border-slate-200/80 my-2 text-[10px] flex items-center justify-between text-slate-500 font-medium">
-        <span className="text-slate-400 font-semibold">1. Mulai</span>
+      <div className="py-2 px-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 my-2 text-[10px] flex items-center justify-between text-slate-500 dark:text-slate-400 font-medium">
+        <span className="text-slate-400 dark:text-slate-500 font-semibold">1. Mulai</span>
         <span>→</span>
-        <span className="text-slate-400 font-semibold">2. Siapkan File</span>
+        <span className="text-slate-400 dark:text-slate-500 font-semibold">2. Siapkan File</span>
         <span>→</span>
-        <span className="text-[#008651] font-bold">3. Submit</span>
+        <span className="text-[#008651] dark:text-emerald-400 font-bold">3. Submit</span>
         <span>→</span>
-        <span className="text-slate-400">4. Review PIC</span>
+        <span className="text-slate-400 dark:text-slate-500">4. Review PIC</span>
         <span>→</span>
-        <span className="text-slate-400">5. Approval</span>
+        <span className="text-slate-400 dark:text-slate-500">5. Approval</span>
       </div>
 
       {success ? (
         <div className="py-8 text-center space-y-2 animate-fade-in">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-[#008651] mx-auto">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-[#008651] dark:text-emerald-400 mx-auto">
             <CheckCircle2 className="h-7 w-7" />
           </div>
-          <h3 className="text-sm font-bold text-slate-900">Submission Berhasil!</h3>
-          <p className="text-xs text-slate-500">
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Submission Berhasil!</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Berkas telah tercatat di sistem dan notifikasi telah dikirimkan ke PIC.
           </p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3.5 py-1 text-xs">
           {error && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-50 text-rose-700 border border-rose-200">
-              <AlertCircle className="h-4 w-4 shrink-0 text-rose-600" />
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
+              <AlertCircle className="h-4 w-4 shrink-0 text-rose-600 dark:text-rose-400" />
               <span>{error}</span>
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="font-bold text-slate-700 flex items-center gap-1.5">
+            <label className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <UploadCloud className="h-3.5 w-3.5 text-slate-400" />
               <span>Upload File (Excel, CSV, atau PDF)</span>
             </label>
@@ -159,13 +159,13 @@ export function SubmitModal({
                 setSelectedFile(file);
                 if (file) setFileName(file.name);
               }}
-              className="text-xs h-10 border-slate-200 file:mr-3 file:border-0 file:bg-emerald-50 file:px-2 file:py-1 file:text-xs file:font-semibold file:text-[#008651]"
+              className="text-xs h-10 border-slate-200 dark:border-slate-700 dark:bg-slate-800 file:mr-3 file:border-0 file:bg-emerald-50 dark:file:bg-emerald-950/40 file:px-2 file:py-1 file:text-xs file:font-semibold file:text-[#008651] dark:file:text-emerald-400"
             />
             <p className="text-[10px] text-slate-400">Maksimum 15 MB. File disimpan secara aman di Blob Storage.</p>
           </div>
 
           <div className="space-y-1.5">
-            <label className="font-bold text-slate-700 flex items-center gap-1.5">
+            <label className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <FileSpreadsheet className="h-3.5 w-3.5 text-slate-400" />
               <span>Nama File / Dokumen Laporan *</span>
             </label>
@@ -175,13 +175,13 @@ export function SubmitModal({
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
               placeholder="Contoh: Rekap_Operasional_Oktober_2026.xlsx"
-              className="font-mono text-xs h-9 border-slate-200 focus:border-[#008651] focus:ring-[#008651]"
+              className="font-mono text-xs h-9 border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 focus:border-[#008651] focus:ring-[#008651]"
             />
             <p className="text-[10px] text-slate-400">Nama akan diambil dari file upload. Tautan cloud tetap didukung untuk workflow lama.</p>
           </div>
 
           <div className="space-y-1.5">
-            <label className="font-bold text-slate-700 flex items-center gap-1.5">
+            <label className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <Link2 className="h-3.5 w-3.5 text-slate-400" />
               <span>Tautan Cloud / OneDrive / SharePoint (Opsional)</span>
             </label>
@@ -190,12 +190,12 @@ export function SubmitModal({
               value={fileUrl}
               onChange={(e) => setFileUrl(e.target.value)}
               placeholder="https://pertamina.sharepoint.com/..."
-              className="text-xs h-9 border-slate-200 focus:border-[#008651] focus:ring-[#008651]"
+              className="text-xs h-9 border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 focus:border-[#008651] focus:ring-[#008651]"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="font-bold text-slate-700 flex items-center gap-1.5">
+            <label className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
               <MessageSquare className="h-3.5 w-3.5 text-slate-400" />
               <span>Catatan Penyerahan (Opsional)</span>
             </label>
@@ -204,7 +204,7 @@ export function SubmitModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Catatan klarifikasi angka cut-off atau lampiran..."
-              className="flex w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-xs shadow-2xs placeholder:text-slate-400 focus:border-[#008651] focus:ring-1 focus:ring-[#008651]"
+              className="flex w-full rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100 px-3 py-2 text-xs shadow-2xs placeholder:text-slate-400 focus:border-[#008651] focus:ring-1 focus:ring-[#008651]"
             />
           </div>
 

@@ -124,7 +124,7 @@ export function MasterAssignmentsClient({
   return (
     <div className="space-y-4">
       {/* Top Search & Create Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-slate-200 bg-white shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] shadow-2xs">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
           <Input
@@ -132,7 +132,7 @@ export function MasterAssignmentsClient({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cari assignment, laporan, user, atau PIC..."
-            className="pl-9 text-xs h-9 bg-slate-50/50"
+            className="pl-9 text-xs h-9 bg-slate-50/50 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-100"
           />
         </div>
 
@@ -149,11 +149,11 @@ export function MasterAssignmentsClient({
       </div>
 
       {/* Assignments Table */}
-      <div className="rounded-xl border border-slate-200 bg-white shadow-2xs overflow-hidden">
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-900 text-white font-semibold uppercase tracking-wider text-[11px]">
+              <tr className="bg-slate-900 dark:bg-[#1E293B] text-white font-semibold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-3 w-12 text-center">No</th>
                 <th className="py-3 px-4 min-w-[220px]">Laporan Master</th>
                 <th className="py-3 px-3 min-w-[130px]">User Assignee</th>
@@ -165,47 +165,47 @@ export function MasterAssignmentsClient({
                 <th className="py-3 px-3 min-w-[120px]">Periode Dibuat</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
               {filtered.map((a, idx) => (
-                <tr key={a.id} className="hover:bg-slate-50 transition-colors">
+                <tr key={a.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <td className="py-3 px-3 text-center text-slate-400 font-mono">
                     {idx + 1}
                   </td>
 
                   <td className="py-3 px-4">
-                    <p className="font-bold text-slate-900">{a.report.name}</p>
-                    <span className="text-[10px] text-blue-600 font-semibold uppercase">
+                    <p className="font-bold text-slate-900 dark:text-slate-100">{a.report.name}</p>
+                    <span className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold uppercase">
                       {a.report.frequency} • {a.report.defaultDepartment || "SPBD"}
                     </span>
                   </td>
 
-                  <td className="py-3 px-3 font-semibold text-slate-900">
+                  <td className="py-3 px-3 font-semibold text-slate-900 dark:text-slate-100">
                     <div>{a.user.name}</div>
                     <div className="text-[10px] text-slate-400 font-normal">{a.user.department || "-"}</div>
                   </td>
 
-                  <td className="py-3 px-3 font-medium text-slate-800">
+                  <td className="py-3 px-3 font-medium text-slate-800 dark:text-slate-200">
                     {a.pic?.name || "-"}
                   </td>
 
-                  <td className="py-3 px-3 text-slate-600">
+                  <td className="py-3 px-3 text-slate-600 dark:text-slate-400">
                     {a.reviewer?.name || "-"}
                   </td>
 
-                  <td className="py-3 px-2 text-center font-mono font-medium text-slate-700">
+                  <td className="py-3 px-2 text-center font-mono font-medium text-slate-700 dark:text-slate-300">
                     Tgl {a.targetFinal || "-"}
                   </td>
 
-                  <td className="py-3 px-2 text-center font-mono font-bold text-blue-700">
+                  <td className="py-3 px-2 text-center font-mono font-bold text-blue-700 dark:text-blue-400">
                     Tgl {a.targetSubmit || "5"}
                   </td>
 
-                  <td className="py-3 px-2 text-center font-mono text-slate-500">
+                  <td className="py-3 px-2 text-center font-mono text-slate-500 dark:text-slate-400">
                     {a.meetingDate && a.meetingDate !== "N/A" ? `Tgl ${a.meetingDate}` : "-"}
                   </td>
 
                   <td className="py-3 px-3">
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
                       {a.periods?.length || 12} Periode (2026)
                     </span>
                   </td>
@@ -227,18 +227,18 @@ export function MasterAssignmentsClient({
 
         <form onSubmit={handleCreate} className="space-y-4 py-2 text-xs">
           {error && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-50 text-rose-700 border border-rose-200">
+            <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="font-semibold text-slate-700">Pilih Master Laporan *</label>
+            <label className="font-semibold text-slate-700 dark:text-slate-300">Pilih Master Laporan *</label>
             <select
               value={formReportId}
               onChange={(e) => setFormReportId(e.target.value)}
-              className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 bg-white font-medium text-slate-800 focus:ring-1 focus:ring-blue-600"
+              className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-800 dark:text-slate-100 focus:ring-1 focus:ring-blue-600"
             >
               {availableReports.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -249,11 +249,11 @@ export function MasterAssignmentsClient({
           </div>
 
           <div className="space-y-1.5">
-            <label className="font-semibold text-slate-700">Pilih User Pelaksana (Assignee) *</label>
+            <label className="font-semibold text-slate-700 dark:text-slate-300">Pilih User Pelaksana (Assignee) *</label>
             <select
               value={formUserId}
               onChange={(e) => setFormUserId(e.target.value)}
-              className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 bg-white font-medium text-slate-800 focus:ring-1 focus:ring-blue-600"
+              className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-800 dark:text-slate-100 focus:ring-1 focus:ring-blue-600"
             >
               {availableUsers.map((u) => (
                 <option key={u.id} value={u.id}>
@@ -265,11 +265,11 @@ export function MasterAssignmentsClient({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700">PIC Penanggung Jawab</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-300">PIC Penanggung Jawab</label>
               <select
                 value={formPicId}
                 onChange={(e) => setFormPicId(e.target.value)}
-                className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 bg-white font-medium text-slate-800 focus:ring-1 focus:ring-blue-600"
+                className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-800 dark:text-slate-100 focus:ring-1 focus:ring-blue-600"
               >
                 <option value="">- Tanpa PIC -</option>
                 {availableUsers.map((u) => (
@@ -281,11 +281,11 @@ export function MasterAssignmentsClient({
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700">Reviewer / Approver</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Reviewer / Approver</label>
               <select
                 value={formReviewerId}
                 onChange={(e) => setFormReviewerId(e.target.value)}
-                className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 bg-white font-medium text-slate-800 focus:ring-1 focus:ring-blue-600"
+                className="w-full h-9 px-3 text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-800 dark:text-slate-100 focus:ring-1 focus:ring-blue-600"
               >
                 <option value="">- Tanpa Reviewer -</option>
                 {availableUsers.map((u) => (
@@ -299,42 +299,42 @@ export function MasterAssignmentsClient({
 
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700">Target Draft (Final)</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Target Draft (Final)</label>
               <Input
                 type="text"
                 value={formTargetFinal}
                 onChange={(e) => setFormTargetFinal(e.target.value)}
                 placeholder="2"
-                className="text-xs"
+                className="text-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700">Target Submit *</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Target Submit *</label>
               <Input
                 type="text"
                 required
                 value={formTargetSubmit}
                 onChange={(e) => setFormTargetSubmit(e.target.value)}
                 placeholder="5"
-                className="text-xs"
+                className="text-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-semibold text-slate-700">Tanggal Meeting</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Tanggal Meeting</label>
               <Input
                 type="text"
                 value={formMeetingDate}
                 onChange={(e) => setFormMeetingDate(e.target.value)}
                 placeholder="12 atau N/A"
-                className="text-xs"
+                className="text-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
               />
             </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" size="sm" onClick={() => setIsCreateOpen(false)} disabled={loading}>
+            <Button variant="outline" size="sm" onClick={() => setIsCreateOpen(false)} disabled={loading} className="border-slate-300 dark:border-slate-700">
               Batal
             </Button>
             <Button type="submit" variant="pertamina" size="sm" disabled={loading}>
