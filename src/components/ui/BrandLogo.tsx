@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import logoColor from "@/image/pertamina.jpeg";
+import logoColor from "@/image/pertamina1.png";
 import logoMono from "@/image/WhatsApp Image 2026-10-05 at 13.36.35.jpeg";
 
 interface BrandLogoProps {
