@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -49,9 +49,31 @@ interface NavSection {
 export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
   const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({
     "Jadwal Kerja": true,
   });
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (!profileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setProfileOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [profileOpen]);
 
   const isAdmin = user?.role === UserRole.ADMIN;
 
@@ -260,10 +282,11 @@ export function Sidebar({ user }: SidebarProps) {
       </div>
 
       {/* Bottom User Profile Section with Dropdown */}
-      <div className="shrink-0 p-3 border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 relative">
+      <div className="shrink-0 p-3 border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 relative" ref={profileRef}>
         <button
           onClick={() => setProfileOpen(!profileOpen)}
           className="w-full flex items-center justify-between p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left shadow-2xs"
+          aria-expanded={profileOpen}
         >
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 dark:bg-slate-700 text-white font-bold text-xs shrink-0">

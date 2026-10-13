@@ -30,6 +30,17 @@ export function ThemeSwitcher({ compact = false, className }: ThemeSwitcherProps
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
+
   if (!mounted) {
     return (
       <div className={cn("h-9 w-9 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900", className)} />
@@ -50,6 +61,7 @@ export function ThemeSwitcher({ compact = false, className }: ThemeSwitcherProps
         className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#008651]"
         title={`Tema saat ini: ${theme} (Klik untuk mengganti)`}
         aria-label="Pilih mode tema"
+        aria-expanded={open}
       >
         {resolvedTheme === "dark" ? (
           <Moon className="h-4 w-4 text-sky-400 transition-transform duration-200" />

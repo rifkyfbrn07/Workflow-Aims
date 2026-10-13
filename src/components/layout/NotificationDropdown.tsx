@@ -55,6 +55,17 @@ export function NotificationDropdown({ notifications }: NotificationDropdownProp
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
   const handleMarkAsRead = async (id: string) => {
     await markNotificationReadAction(id);
   };
@@ -93,7 +104,8 @@ export function NotificationDropdown({ notifications }: NotificationDropdownProp
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors shadow-2xs"
-        title="Notifikasi & Reminder"
+        title="Notifikasi &amp; Reminder"
+        aria-expanded={isOpen}
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
@@ -104,9 +116,9 @@ export function NotificationDropdown({ notifications }: NotificationDropdownProp
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 md:w-96 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-50 animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute right-0 mt-2 w-[min(24rem,calc(100vw-1.5rem))] max-h-[min(85dvh,32rem)] flex flex-col rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between p-3.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 rounded-t-xl">
+          <div className="flex items-center justify-between p-3.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 shrink-0">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-slate-900 dark:text-slate-100">Notifikasi</span>
               {unreadCount > 0 && (

@@ -24,6 +24,17 @@ export function UserMenu({ user }: UserMenuProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
   const getRoleBadgeColor = (role?: string) => {
     switch (role) {
       case "ADMIN":
@@ -55,6 +66,7 @@ export function UserMenu({ user }: UserMenuProps) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left shadow-2xs"
+        aria-expanded={isOpen}
       >
         <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 dark:bg-slate-700 text-white font-bold text-xs">
           {user.name.charAt(0).toUpperCase()}
@@ -67,7 +79,7 @@ export function UserMenu({ user }: UserMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-72 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-50 animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute right-0 mt-2 w-[min(18rem,calc(100vw-1.5rem))] rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
           {/* User Info */}
           <div className="p-3.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 rounded-t-xl">
             <p className="text-xs font-bold text-slate-900 dark:text-slate-100">{user.name}</p>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, AlertTriangle, XCircle, Info, X } from "lucide-react";
 
@@ -74,63 +75,76 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     [showToast]
   );
 
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <ToastContext.Provider value={{ showToast, success, warning, error, info }}>
       {children}
-      {/* Toast viewport fixed to top-right */}
-      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none">
-        <AnimatePresence mode="popLayout">
-          {toasts.map((toast) => {
-            const isSuccess = toast.type === "success";
-            const isWarning = toast.type === "warning";
-            const isError = toast.type === "error";
+      {mounted &&
+        createPortal(
+          <div
+            className="fixed top-4 right-3 sm:right-4 left-3 sm:left-auto sm:w-96 max-w-[calc(100vw-1.5rem)] z-[100] flex flex-col gap-2.5 pointer-events-none"
+            aria-live="polite"
+          >
+            <AnimatePresence mode="popLayout">
+              {toasts.map((toast) => {
+                const isSuccess = toast.type === "success";
+                const isWarning = toast.type === "warning";
+                const isError = toast.type === "error";
 
-            return (
-              <motion.div
-                key={toast.id}
-                layout
-                initial={{ opacity: 0, x: 50, scale: 0.95 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 40, scale: 0.9, transition: { duration: 0.15 } }}
-                transition={{ type: "spring", stiffness: 450, damping: 30 }}
-                className={`pointer-events-auto rounded-xl p-3.5 shadow-lg border text-xs flex items-start gap-3 bg-white dark:bg-slate-900 ${
-                  isSuccess
-                    ? "border-emerald-200 dark:border-emerald-800 ring-1 ring-emerald-500/10"
-                    : isWarning
-                    ? "border-amber-200 dark:border-amber-800 ring-1 ring-amber-500/10"
-                    : isError
-                    ? "border-red-200 dark:border-red-800 ring-1 ring-red-500/10"
-                    : "border-blue-200 dark:border-blue-800 ring-1 ring-blue-500/10"
-                }`}
-              >
-                {/* Icon Indicator */}
-                <div className="shrink-0 mt-0.5">
-                  {isSuccess && <CheckCircle2 className="h-4 w-4 text-[#008651] dark:text-emerald-400" />}
-                  {isWarning && <AlertTriangle className="h-4 w-4 text-[#D97706] dark:text-amber-400" />}
-                  {isError && <XCircle className="h-4 w-4 text-[#DC2626] dark:text-red-400" />}
-                  {!isSuccess && !isWarning && !isError && <Info className="h-4 w-4 text-[#0055A5] dark:text-sky-400" />}
-                </div>
+                return (
+                  <motion.div
+                    key={toast.id}
+                    layout
+                    initial={{ opacity: 0, x: 50, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 40, scale: 0.9, transition: { duration: 0.15 } }}
+                    transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                    className={`pointer-events-auto rounded-xl p-3.5 shadow-xl border text-xs flex items-start gap-3 bg-white dark:bg-slate-900 ${
+                      isSuccess
+                        ? "border-emerald-200 dark:border-emerald-800 ring-1 ring-emerald-500/10"
+                        : isWarning
+                        ? "border-amber-200 dark:border-amber-800 ring-1 ring-amber-500/10"
+                        : isError
+                        ? "border-red-200 dark:border-red-800 ring-1 ring-red-500/10"
+                        : "border-blue-200 dark:border-blue-800 ring-1 ring-blue-500/10"
+                    }`}
+                  >
+                    {/* Icon Indicator */}
+                    <div className="shrink-0 mt-0.5">
+                      {isSuccess && <CheckCircle2 className="h-4 w-4 text-[#008651] dark:text-emerald-400" />}
+                      {isWarning && <AlertTriangle className="h-4 w-4 text-[#D97706] dark:text-amber-400" />}
+                      {isError && <XCircle className="h-4 w-4 text-[#DC2626] dark:text-red-400" />}
+                      {!isSuccess && !isWarning && !isError && <Info className="h-4 w-4 text-[#0055A5] dark:text-sky-400" />}
+                    </div>
 
-                <div className="flex-1 min-w-0 pr-1">
-                  {toast.title && (
-                    <p className="font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-snug">
-                      {toast.title}
-                    </p>
-                  )}
-                  <p className="text-slate-600 dark:text-slate-300 leading-snug mt-0.5">{toast.message}</p>
-                </div>
+                    <div className="flex-1 min-w-0 pr-1">
+                      {toast.title && (
+                        <p className="font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-snug">
+                          {toast.title}
+                        </p>
+                      )}
+                      <p className="text-slate-600 dark:text-slate-300 leading-snug mt-0.5">{toast.message}</p>
+                    </div>
 
-                <button
-                  onClick={() => removeToast(toast.id)}
-                  className="shrink-0 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5 rounded transition-colors"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
+                    <button
+                      onClick={() => removeToast(toast.id)}
+                      className="shrink-0 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5 rounded transition-colors"
+                      aria-label="Tutup pemberitahuan"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>,
+          document.body
+        )}
     </ToastContext.Provider>
   );
 }

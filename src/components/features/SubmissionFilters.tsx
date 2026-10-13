@@ -24,7 +24,7 @@ export function SubmissionFilters() {
           className="h-9 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/80 pl-9 pr-3 text-xs text-slate-900 dark:text-slate-100 outline-none focus:border-[#008651]"
         />
       </label>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap sm:flex-nowrap gap-2">
         <select
           defaultValue={params.get("status") || ""}
           onChange={(e) => apply({ status: e.target.value })}
