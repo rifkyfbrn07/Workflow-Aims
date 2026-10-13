@@ -118,6 +118,8 @@ model ReportPeriod {
   deadlineFinal  DateTime?
   deadlineSubmit DateTime
   meetingDate    DateTime?
+  planDate       String? // e.g. "5", "10", "10 & 31"
+  actualDate     String? // e.g. "6", "13", "10 & 27", "N/A"
   status         PeriodStatus @default(PENDING)
   generatedAt    DateTime     @default(now())
   createdAt      DateTime     @default(now())

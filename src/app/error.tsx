@@ -5,7 +5,7 @@ import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import officialLogo from "@/image/WhatsApp Image 2026-10-05 at 13.36.35.jpeg";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export default function Error({
   error,
@@ -22,13 +22,9 @@ export default function Error({
   return (
     <div className="flex min-h-[65vh] w-full flex-col items-center justify-center p-6 text-center">
       <div className="max-w-md w-full space-y-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-xl transition-colors">
-        {/* Official Logo in high contrast container */}
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white p-1 border border-slate-200/80 dark:border-slate-700 shadow-sm">
-          <Image
-            src={officialLogo}
-            alt="Pertamina Nusantara Regas"
-            className="h-full w-full object-contain"
-          />
+        {/* Official Nusantara Regas Logo */}
+        <div className="mx-auto flex justify-center">
+          <BrandLogo className="h-14 w-14 shadow-sm border border-slate-200/80 dark:border-slate-700" priority />
         </div>
 
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/60">

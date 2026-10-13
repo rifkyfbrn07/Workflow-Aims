@@ -224,6 +224,155 @@ export async function getDashboardStats(context?: RoleDashboardContext) {
     };
   }
 
+  // Build unified, prioritized Action-Required task list tailored to role
+  let actionRequiredList: Array<{
+    id: string;
+    reportName: string;
+    reportCode?: string | null;
+    periodLabel: string;
+    responsiblePerson: string;
+    deadlineSubmit: Date;
+    status: PeriodStatus;
+    actionType: "REVISE" | "SUBMIT" | "REVIEW" | "START" | "VIEW";
+    actionLabel: string;
+    href: string;
+  }> = [];
+
+  if (userId && role === UserRole.USER && userSpecificData) {
+    // 1. Revisions first (highest urgency for User)
+    userSpecificData.myRevisions.forEach((p: any) => {
+      actionRequiredList.push({
+        id: p.id,
+        reportName: p.assignment.report.name,
+        reportCode: p.assignment.report.code,
+        periodLabel: p.periodLabel,
+        responsiblePerson: p.assignment.user.name,
+        deadlineSubmit: p.deadlineSubmit,
+        status: p.status,
+        actionType: "REVISE",
+        actionLabel: "Perbaiki Laporan",
+        href: `/pekerjaan/${p.id}`,
+      });
+    });
+
+    // 2. Overdue tasks for user
+    userSpecificData.myOverdue.forEach((p: any) => {
+      actionRequiredList.push({
+        id: p.id,
+        reportName: p.assignment.report.name,
+        reportCode: p.assignment.report.code,
+        periodLabel: p.periodLabel,
+        responsiblePerson: p.assignment.user.name,
+        deadlineSubmit: p.deadlineSubmit,
+        status: p.status,
+        actionType: "SUBMIT",
+        actionLabel: "Submit Segera",
+        href: `/pekerjaan/${p.id}`,
+      });
+    });
+
+    // 3. Pending / In Progress tasks
+    userSpecificData.myPending.forEach((p: any) => {
+      actionRequiredList.push({
+        id: p.id,
+        reportName: p.assignment.report.name,
+        reportCode: p.assignment.report.code,
+        periodLabel: p.periodLabel,
+        responsiblePerson: p.assignment.user.name,
+        deadlineSubmit: p.deadlineSubmit,
+        status: p.status,
+        actionType: p.status === PeriodStatus.IN_PROGRESS ? "SUBMIT" : "START",
+        actionLabel: p.status === PeriodStatus.IN_PROGRESS ? "Lanjutkan Submit" : "Mulai Kerjakan",
+        href: `/pekerjaan/${p.id}`,
+      });
+    });
+  } else if (userId && (role === UserRole.PIC || role === UserRole.REVIEWER) && userSpecificData) {
+    // 1. Waiting review first (highest urgency for Reviewer/PIC)
+    userSpecificData.waitingReview.forEach((p: any) => {
+      actionRequiredList.push({
+        id: p.id,
+        reportName: p.assignment.report.name,
+        reportCode: p.assignment.report.code,
+        periodLabel: p.periodLabel,
+        responsiblePerson: p.assignment.user.name,
+        deadlineSubmit: p.deadlineSubmit,
+        status: p.status,
+        actionType: "REVIEW",
+        actionLabel: "Tinjau Berkas",
+        href: `/pekerjaan/${p.id}`,
+      });
+    });
+
+    // 2. Revisions under monitoring
+    userSpecificData.picRevisions.forEach((p: any) => {
+      actionRequiredList.push({
+        id: p.id,
+        reportName: p.assignment.report.name,
+        reportCode: p.assignment.report.code,
+        periodLabel: p.periodLabel,
+        responsiblePerson: p.assignment.user.name,
+        deadlineSubmit: p.deadlineSubmit,
+        status: p.status,
+        actionType: "VIEW",
+        actionLabel: "Pantau Revisi",
+        href: `/pekerjaan/${p.id}`,
+      });
+    });
+
+    // 3. Overdue under monitoring
+    userSpecificData.picOverdue.forEach((p: any) => {
+      actionRequiredList.push({
+        id: p.id,
+        reportName: p.assignment.report.name,
+        reportCode: p.assignment.report.code,
+        periodLabel: p.periodLabel,
+        responsiblePerson: p.assignment.user.name,
+        deadlineSubmit: p.deadlineSubmit,
+        status: p.status,
+        actionType: "VIEW",
+        actionLabel: "Eskalasi Laporan",
+        href: `/pekerjaan/${p.id}`,
+      });
+    });
+  } else {
+    // Admin / Management / General: Top enterprise items requiring operational intervention
+    const enterpriseActionItems = await prisma.reportPeriod.findMany({
+      where: {
+        status: {
+          in: [PeriodStatus.SUBMITTED, PeriodStatus.UNDER_REVIEW, PeriodStatus.REVISION, PeriodStatus.OVERDUE],
+        },
+      },
+      include: {
+        assignment: {
+          include: {
+            report: true,
+            user: true,
+            pic: true,
+          },
+        },
+      },
+      orderBy: { deadlineSubmit: "asc" },
+      take: 8,
+    });
+
+    actionRequiredList = enterpriseActionItems.map((p) => {
+      const isReview = p.status === PeriodStatus.SUBMITTED || p.status === PeriodStatus.UNDER_REVIEW;
+      const isRev = p.status === PeriodStatus.REVISION;
+      return {
+        id: p.id,
+        reportName: p.assignment.report.name,
+        reportCode: p.assignment.report.code,
+        periodLabel: p.periodLabel,
+        responsiblePerson: p.assignment.user.name + (p.assignment.pic ? ` (PIC: ${p.assignment.pic.name})` : ""),
+        deadlineSubmit: p.deadlineSubmit,
+        status: p.status,
+        actionType: isReview ? "REVIEW" : isRev ? "REVISE" : "VIEW",
+        actionLabel: isReview ? "Tinjau Berkas" : isRev ? "Audit Revisi" : "Pantau Status",
+        href: `/pekerjaan/${p.id}`,
+      };
+    });
+  }
+
   // Distribution for Charts
   const statusDistribution = [
     { name: "Pending", count: pendingCount, color: "#94A3B8" },
@@ -284,12 +433,24 @@ export async function getDashboardStats(context?: RoleDashboardContext) {
     mainAssignment?.periods.forEach((p) => {
       const d = new Date(p.periodStart);
       const mIdx = d.getMonth();
-      periodsMap[mIdx] = {
-        periodId: p.id,
-        periodLabel: p.periodLabel,
-        status: p.status,
-        deadlineSubmit: p.deadlineSubmit,
-      };
+      const existing = periodsMap[mIdx];
+      if (!existing) {
+        periodsMap[mIdx] = {
+          periodId: p.id,
+          periodLabel: p.periodLabel,
+          status: p.status,
+          deadlineSubmit: p.deadlineSubmit,
+          planDate: p.planDate,
+          actualDate: p.actualDate,
+          cycles: [{ periodId: p.id, label: p.periodLabel, planDate: p.planDate, actualDate: p.actualDate, status: p.status }],
+        };
+      } else {
+        existing.cycles.push({ periodId: p.id, label: p.periodLabel, planDate: p.planDate, actualDate: p.actualDate, status: p.status });
+        existing.planDate = `${existing.planDate || "10"} & ${p.planDate || ""}`;
+        if (existing.actualDate || p.actualDate) {
+          existing.actualDate = `${existing.actualDate || "-"} & ${p.actualDate || "-"}`;
+        }
+      }
     });
 
     return {
@@ -318,6 +479,7 @@ export async function getDashboardStats(context?: RoleDashboardContext) {
       totalAssignments: totalAssignmentsCount,
     },
     userSpecificData,
+    actionRequiredList,
     statusDistribution,
     monthlyTrend,
     upcomingDeadlines,
@@ -352,12 +514,24 @@ export async function getProgramMatrixData() {
     mainAssignment?.periods.forEach((p) => {
       const d = new Date(p.periodStart);
       const mIdx = d.getMonth();
-      periodsMap[mIdx] = {
-        periodId: p.id,
-        periodLabel: p.periodLabel,
-        status: p.status,
-        deadlineSubmit: p.deadlineSubmit,
-      };
+      const existing = periodsMap[mIdx];
+      if (!existing) {
+        periodsMap[mIdx] = {
+          periodId: p.id,
+          periodLabel: p.periodLabel,
+          status: p.status,
+          deadlineSubmit: p.deadlineSubmit,
+          planDate: p.planDate,
+          actualDate: p.actualDate,
+          cycles: [{ periodId: p.id, label: p.periodLabel, planDate: p.planDate, actualDate: p.actualDate, status: p.status }],
+        };
+      } else {
+        existing.cycles.push({ periodId: p.id, label: p.periodLabel, planDate: p.planDate, actualDate: p.actualDate, status: p.status });
+        existing.planDate = `${existing.planDate || "10"} & ${p.planDate || ""}`;
+        if (existing.actualDate || p.actualDate) {
+          existing.actualDate = `${existing.actualDate || "-"} & ${p.actualDate || "-"}`;
+        }
+      }
     });
 
     return {

@@ -191,7 +191,7 @@ export function PekerjaanDetailClient({
             <span>Kembali ke Pekerjaan Saya</span>
           </Link>
           <div className="flex items-center gap-2.5 pt-1">
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-[#008651] dark:text-emerald-400 font-bold text-xs border border-emerald-200 dark:border-emerald-800">
+            <span className="px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#0055A5] dark:text-sky-400 font-bold text-xs border border-blue-200 dark:border-blue-800">
               Periode: {period.periodLabel}
             </span>
             <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
@@ -225,7 +225,7 @@ export function PekerjaanDetailClient({
               variant="pertamina"
               size="sm"
               onClick={() => setIsSubmitModalOpen(true)}
-              className="gap-1.5 shadow-xs font-bold bg-[#008651] hover:bg-[#007244] text-white"
+              className="gap-1.5 shadow-xs font-bold bg-[#0055A5] hover:bg-[#00478B] text-white"
             >
               <Send className="h-3.5 w-3.5" />
               <span>{isRevision ? "Submit Revisi" : "Submit Pekerjaan"}</span>

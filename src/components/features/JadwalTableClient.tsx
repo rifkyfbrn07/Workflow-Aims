@@ -34,6 +34,8 @@ interface PeriodItem {
   deadlineFinal?: Date | string | null;
   deadlineSubmit: Date | string;
   meetingDate?: Date | string | null;
+  planDate?: string | null;
+  actualDate?: string | null;
   status: string;
   assignment: {
     id: string;
@@ -91,7 +93,7 @@ export function JadwalTableClient({
   currentUserRole,
 }: JadwalTableClientProps) {
   const [search, setSearch] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState<string>("Oktober 2026");
+  const [selectedMonth, setSelectedMonth] = useState<string>("ALL");
   const [selectedStatus, setSelectedStatus] = useState<string>("ALL");
   const [selectedDept, setSelectedDept] = useState<string>("ALL");
   const [selectedPic, setSelectedPic] = useState<string>("ALL");
@@ -134,8 +136,10 @@ export function JadwalTableClient({
   const filteredPeriods = useMemo(() => {
     return periods.filter((p) => {
       // Month
-      if (selectedMonth !== "ALL" && p.periodLabel !== selectedMonth) {
-        return false;
+      if (selectedMonth !== "ALL") {
+        if (p.periodLabel !== selectedMonth && !p.periodLabel.startsWith(selectedMonth)) {
+          return false;
+        }
       }
 
       // Status
@@ -300,7 +304,7 @@ export function JadwalTableClient({
               }}
               className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
                 selectedStatus === tab.value
-                  ? "bg-[#008651] text-white font-semibold shadow-xs"
+                  ? "bg-[#0055A5] text-white font-semibold shadow-xs"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
               }`}
             >
@@ -326,7 +330,8 @@ export function JadwalTableClient({
                 <th className="py-3 px-3 min-w-[90px]">Reviewer</th>
                 <th className="py-3 px-3 min-w-[110px]">Periode</th>
                 <th className="py-3 px-2 text-center w-20">Final (Draft)</th>
-                <th className="py-3 px-2 text-center w-20">Submit</th>
+                <th className="py-3 px-2 text-center w-20">Plan Submit</th>
+                <th className="py-3 px-2 text-center w-20">Aktual</th>
                 <th className="py-3 px-2 text-center w-20">Meeting</th>
                 <th className="py-3 px-3 min-w-[130px]">Status</th>
                 <th className="py-3 px-3 min-w-[120px]">Tenggat Waktu</th>
@@ -336,7 +341,7 @@ export function JadwalTableClient({
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
               {paginatedPeriods.length === 0 ? (
                 <tr>
-                  <td colSpan={12} className="py-12 text-center text-slate-400 dark:text-slate-500">
+                  <td colSpan={13} className="py-12 text-center text-slate-400 dark:text-slate-500">
                     <FileSpreadsheet className="h-8 w-8 mx-auto mb-2 text-slate-300 dark:text-slate-600" />
                     <p className="font-medium">Tidak ada data jadwal yang sesuai dengan filter.</p>
                   </td>
@@ -404,7 +409,17 @@ export function JadwalTableClient({
                       </td>
 
                       <td className="py-3 px-2 text-center font-mono font-semibold text-blue-700 dark:text-blue-400">
-                        Tgl {p.assignment.targetSubmit || "5"}
+                        Tgl {p.planDate || p.assignment.targetSubmit || "5"}
+                      </td>
+
+                      <td className="py-3 px-2 text-center font-mono">
+                        {p.actualDate ? (
+                          <span className="px-1.5 py-0.5 rounded text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/50 text-[#008651] dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                            Tgl {p.actualDate}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400 dark:text-slate-500 font-medium">-</span>
+                        )}
                       </td>
 
                       <td className="py-3 px-2 text-center font-mono text-slate-500 dark:text-slate-400">
@@ -427,7 +442,7 @@ export function JadwalTableClient({
                           {p.status !== "APPROVED" && canSubmit && (
                             <button
                               onClick={() => setSubmitModalPeriod(p)}
-                              className="px-2 py-1 rounded text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-[#008651] dark:text-emerald-400 hover:bg-[#008651] hover:text-white transition-colors border border-emerald-200 dark:border-emerald-800"
+                              className="px-2 py-1 rounded text-[11px] font-semibold bg-blue-50 dark:bg-blue-950/40 text-[#0055A5] dark:text-sky-400 hover:bg-[#0055A5] hover:text-white transition-colors border border-blue-200 dark:border-blue-800"
                               title="Submit Laporan"
                             >
                               <Send className="h-3 w-3 inline mr-1" />

@@ -28,8 +28,7 @@ import { UserRole } from "@prisma/client";
 import { SessionUser } from "@/lib/auth";
 import { logoutAction } from "@/actions/worktrack-actions";
 import { ROLE_LABELS } from "@/lib/constants";
-import Image from "next/image";
-import officialLogo from "@/image/WhatsApp Image 2026-10-05 at 13.36.35.jpeg";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 interface SidebarProps {
   user: SessionUser | null;
@@ -107,17 +106,15 @@ export function Sidebar({ user }: SidebarProps) {
   }
 
   return (
-    <aside className="hidden lg:flex lg:flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shrink-0 select-none z-20 transition-colors">
+    <aside className="hidden lg:flex lg:flex-col fixed inset-y-0 top-0 bottom-0 left-0 w-64 h-screen max-h-screen overflow-hidden bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shrink-0 select-none z-40 transition-colors">
       {/* Brand Header */}
-      <div className="h-16 flex items-center px-4 gap-3 border-b border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white p-0.5 shadow-2xs border border-slate-200/80 dark:border-slate-700/60">
-          <Image src={officialLogo} alt="Pertamina Nusantara Regas" priority className="h-full w-full object-contain" />
-        </div>
+      <div className="h-16 shrink-0 flex items-center px-4 gap-3 border-b border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
+        <BrandLogo className="h-10 w-10 shrink-0 shadow-2xs border border-slate-200/80 dark:border-slate-700/60" priority />
 
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
             <h1 className="text-xs font-black tracking-tight text-slate-900 dark:text-slate-100 uppercase">NUSANTARA REGAS</h1>
-            <span className="text-[9px] bg-emerald-100 dark:bg-emerald-950/60 text-[#008651] dark:text-emerald-400 px-1.5 py-0.2 rounded font-bold border border-emerald-200 dark:border-emerald-800 font-mono">
+            <span className="text-[9px] bg-blue-50 dark:bg-blue-950/60 text-[#0055A5] dark:text-sky-400 px-1.5 py-0.2 rounded font-bold border border-blue-200 dark:border-blue-800 font-mono">
               AIMS
             </span>
           </div>
@@ -128,7 +125,7 @@ export function Sidebar({ user }: SidebarProps) {
       </div>
 
       {/* Navigation List */}
-      <div className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+      <div className="flex-1 overflow-y-auto py-4 px-3 space-y-5 overscroll-contain">
         {navSections.map((section, sIdx) => (
           <div key={sIdx} className="space-y-1">
             <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -154,7 +151,7 @@ export function Sidebar({ user }: SidebarProps) {
                         className={cn(
                           "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all duration-150 group relative select-none",
                           isMainActive
-                            ? "bg-emerald-50/70 dark:bg-emerald-950/30 text-[#008651] dark:text-emerald-400 font-bold"
+                            ? "bg-blue-50/80 dark:bg-blue-950/40 text-[#0055A5] dark:text-sky-400 font-bold"
                             : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200 font-medium"
                         )}
                       >
@@ -162,14 +159,14 @@ export function Sidebar({ user }: SidebarProps) {
                           {isMainActive && (
                             <motion.span
                               layoutId="activeNavIndicator"
-                              className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#008651] dark:bg-emerald-400 rounded-r-full"
+                              className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0055A5] dark:bg-sky-400 rounded-r-full"
                               transition={{ type: "spring", stiffness: 400, damping: 30 }}
                             />
                           )}
                           <Icon
                             className={cn(
                               "h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5",
-                              isMainActive ? "text-[#008651] dark:text-emerald-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300"
+                              isMainActive ? "text-[#0055A5] dark:text-sky-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300"
                             )}
                           />
                           <span className="truncate">{item.label}</span>
@@ -207,14 +204,14 @@ export function Sidebar({ user }: SidebarProps) {
                                     className={cn(
                                       "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[11px] transition-all duration-150 group",
                                       isSubActive
-                                        ? "bg-emerald-50 dark:bg-emerald-950/40 text-[#008651] dark:text-emerald-400 font-bold"
+                                        ? "bg-blue-50 dark:bg-blue-950/50 text-[#0055A5] dark:text-sky-400 font-bold"
                                         : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 font-medium"
                                     )}
                                   >
                                     <SubIcon
                                       className={cn(
                                         "h-3 w-3 shrink-0 transition-transform duration-150 group-hover:translate-x-0.5",
-                                        isSubActive ? "text-[#008651] dark:text-emerald-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300"
+                                        isSubActive ? "text-[#0055A5] dark:text-sky-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300"
                                       )}
                                     />
                                     <span className="truncate">{sub.label}</span>
@@ -236,21 +233,21 @@ export function Sidebar({ user }: SidebarProps) {
                     className={cn(
                       "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all duration-150 group relative",
                       isMainActive
-                        ? "bg-emerald-50 dark:bg-emerald-950/30 text-[#008651] dark:text-emerald-400 font-bold shadow-2xs"
+                        ? "bg-blue-50/80 dark:bg-blue-950/40 text-[#0055A5] dark:text-sky-400 font-bold shadow-2xs"
                         : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200 font-medium"
                     )}
                   >
                     {isMainActive && (
                       <motion.span
                         layoutId="activeNavIndicator"
-                        className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#008651] dark:bg-emerald-400 rounded-r-full"
+                        className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0055A5] dark:bg-sky-400 rounded-r-full"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
                     <Icon
                       className={cn(
                         "h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5",
-                        isMainActive ? "text-[#008651] dark:text-emerald-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300"
+                        isMainActive ? "text-[#0055A5] dark:text-sky-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300"
                       )}
                     />
                     <span className="truncate">{item.label}</span>
@@ -263,7 +260,7 @@ export function Sidebar({ user }: SidebarProps) {
       </div>
 
       {/* Bottom User Profile Section with Dropdown */}
-      <div className="p-3 border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 relative">
+      <div className="shrink-0 p-3 border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 relative">
         <button
           onClick={() => setProfileOpen(!profileOpen)}
           className="w-full flex items-center justify-between p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left shadow-2xs"

@@ -11,6 +11,7 @@ import {
   FileSpreadsheet,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export interface ProgramMatrixItem {
   reportId: string;
@@ -26,6 +27,15 @@ export interface ProgramMatrixItem {
       periodLabel: string;
       status: string;
       deadlineSubmit: Date | string;
+      planDate?: string | null;
+      actualDate?: string | null;
+      cycles?: Array<{
+        periodId: string;
+        label: string;
+        planDate?: string | null;
+        actualDate?: string | null;
+        status: string;
+      }>;
     }
   >;
 }
@@ -43,6 +53,7 @@ export function ProgramWorkMatrix({
 }: ProgramWorkMatrixProps) {
   const [search, setSearch] = useState("");
   const [selectedDept, setSelectedDept] = useState("ALL");
+  const [viewMode, setViewMode] = useState<"STATUS" | "PLAN_ACTUAL" | "COMBINED">("COMBINED");
 
   const currentMonthIdx = new Date().getMonth();
 
@@ -146,12 +157,63 @@ export function ProgramWorkMatrix({
     }
   };
 
+  const renderCellContent = (period?: any) => {
+    if (!period) {
+      return (
+        <span className="inline-block w-full py-1 text-[10px] text-slate-300 dark:text-slate-600 font-mono text-center">
+          -
+        </span>
+      );
+    }
+
+    const hasPlan = period.planDate !== null && period.planDate !== undefined;
+    const hasActual = period.actualDate !== null && period.actualDate !== undefined;
+
+    if (viewMode === "STATUS") {
+      return getStatusPill(period.status, period.periodId, period.periodLabel);
+    }
+
+    if (viewMode === "PLAN_ACTUAL") {
+      return (
+        <Link
+          href={`/pekerjaan/${period.periodId}`}
+          className="flex flex-col items-center justify-center p-1 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-700/60 border border-slate-200 dark:border-slate-700/60 transition-colors shadow-2xs"
+          title={`${period.periodLabel} | Plan: ${period.planDate || "-"}, Aktual: ${period.actualDate || "-"}`}
+        >
+          <span className="text-[10px] font-mono font-bold text-slate-700 dark:text-slate-300">
+            P: {hasPlan ? period.planDate : "-"}
+          </span>
+          <span
+            className={`text-[10px] font-mono font-bold ${
+              hasActual ? "text-[#008651] dark:text-emerald-400" : "text-slate-400 dark:text-slate-500"
+            }`}
+          >
+            A: {hasActual ? period.actualDate : "-"}
+          </span>
+        </Link>
+      );
+    }
+
+    // COMBINED view mode
+    return (
+      <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center gap-1 text-[9px] font-mono leading-none">
+          <span className="text-slate-600 dark:text-slate-400 font-bold">P:{hasPlan ? period.planDate : "-"}</span>
+          <span className={hasActual ? "text-[#008651] dark:text-emerald-400 font-black" : "text-slate-400"}>
+            A:{hasActual ? period.actualDate : "-"}
+          </span>
+        </div>
+        {getStatusPill(period.status, period.periodId, period.periodLabel)}
+      </div>
+    );
+  };
+
   const shortMonths = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOV", "DES"];
 
   return (
     <div className="space-y-4">
       {/* Header & Filter Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs transition-colors">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs transition-colors">
         <div>
           <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-2">
             <TableProperties className="h-4 w-4 text-[#008651] dark:text-emerald-400" />
@@ -161,7 +223,47 @@ export function ProgramWorkMatrix({
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="relative min-w-[220px]">
+          {/* View Mode Switcher */}
+          <div className="flex items-center rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold">
+            <button
+              type="button"
+              onClick={() => setViewMode("STATUS")}
+              className={cn(
+                "px-2.5 py-1 rounded-md transition-colors",
+                viewMode === "STATUS"
+                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-2xs"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+              )}
+            >
+              Status Alur
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("PLAN_ACTUAL")}
+              className={cn(
+                "px-2.5 py-1 rounded-md transition-colors",
+                viewMode === "PLAN_ACTUAL"
+                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-2xs"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+              )}
+            >
+              Plan vs Aktual
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("COMBINED")}
+              className={cn(
+                "px-2.5 py-1 rounded-md transition-colors",
+                viewMode === "COMBINED"
+                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-2xs"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+              )}
+            >
+              Lengkap
+            </button>
+          </div>
+
+          <div className="relative min-w-[200px]">
             <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
             <Input
               type="text"
@@ -275,11 +377,7 @@ export function ProgramWorkMatrix({
                             isCurrentMonth ? "bg-emerald-50/40 dark:bg-emerald-950/20" : ""
                           }`}
                         >
-                          {getStatusPill(
-                            period?.status,
-                            period?.periodId,
-                            period?.periodLabel
-                          )}
+                          {renderCellContent(period)}
                         </td>
                       );
                     })}
@@ -313,6 +411,13 @@ export function ProgramWorkMatrix({
             <span className="inline-flex items-center gap-1 text-slate-600 dark:text-slate-400 font-medium">
               <span className="h-2.5 w-2.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700" />
               Plan (Rencana)
+            </span>
+            <span className="text-slate-300 dark:text-slate-700">|</span>
+            <span className="inline-flex items-center gap-1 text-slate-700 dark:text-slate-300 font-mono font-bold">
+              <span>P: Rencana Tgl</span>
+            </span>
+            <span className="inline-flex items-center gap-1 text-[#008651] dark:text-emerald-400 font-mono font-bold">
+              <span>A: Aktual Tgl Tercatat</span>
             </span>
           </div>
 

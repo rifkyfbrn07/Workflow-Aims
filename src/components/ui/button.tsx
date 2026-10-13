@@ -7,18 +7,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#008651] text-white hover:bg-[#007244] shadow-xs",
-        pertamina: "bg-[#008651] text-white hover:bg-[#007244] shadow-xs",
-        primary: "bg-[#008651] text-white hover:bg-[#007244] shadow-xs",
+        default: "bg-[#0055A5] text-white hover:bg-[#00478B] shadow-xs",
+        pertamina: "bg-[#0055A5] text-white hover:bg-[#00478B] shadow-xs",
+        primary: "bg-[#0055A5] text-white hover:bg-[#00478B] shadow-xs",
         blue: "bg-[#0055A5] text-white hover:bg-[#00478B] shadow-xs",
         corporate: "bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700 shadow-xs",
         destructive: "bg-rose-600 text-white hover:bg-rose-700 shadow-xs",
         outline: "border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-2xs",
         secondary: "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200/80 dark:hover:bg-slate-700",
         ghost: "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white",
-        link: "text-[#008651] dark:text-emerald-400 underline-offset-4 hover:underline",
-        success: "bg-emerald-600 dark:bg-emerald-700 text-white hover:bg-emerald-700",
-        warning: "bg-amber-600 dark:bg-amber-700 text-white hover:bg-amber-700",
+        link: "text-[#0055A5] dark:text-sky-400 underline-offset-4 hover:underline",
+        success: "bg-[#008651] text-white hover:bg-[#007244] shadow-xs",
+        warning: "bg-amber-600 dark:bg-amber-700 text-white hover:bg-amber-700 shadow-xs",
       },
       size: {
         default: "h-9 px-3.5 py-1.5",

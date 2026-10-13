@@ -21,7 +21,7 @@ export default async function JadwalPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#008651] text-white shadow-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0055A5] text-white shadow-xs">
               <CalendarDays className="h-4 w-4" />
             </div>
             <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import officialLogo from "@/image/WhatsApp Image 2026-10-05 at 13.36.35.jpeg";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function Preloader() {
   const [mounted, setMounted] = useState(false);
@@ -79,17 +79,12 @@ export function Preloader() {
       aria-label="Memuat aplikasi operasional"
     >
       <div className="flex flex-col items-center max-w-sm px-6 text-center">
-        {/* Official Nusantara Regas Logo in a crisp high-contrast container */}
+        {/* Official Nusantara Regas Logo with theme adaptiveness */}
         <div
           ref={logoRef}
           className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-2 shadow-lg border border-slate-200/80 dark:border-slate-700/80"
         >
-          <Image
-            src={officialLogo}
-            alt="Pertamina Nusantara Regas"
-            priority
-            className="h-full w-full object-contain"
-          />
+          <BrandLogo className="h-full w-full" priority />
         </div>
 
         {/* Operational Brand & Heading */}

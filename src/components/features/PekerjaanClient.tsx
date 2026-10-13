@@ -192,7 +192,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
               onClick={() => setActiveTab(tab.value)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
                 activeTab === tab.value
-                  ? "bg-[#008651] text-white shadow-xs"
+                  ? "bg-[#0055A5] text-white shadow-xs"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-700"
               }`}
             >
@@ -200,7 +200,7 @@ export function PekerjaanClient({ tasks, currentUserName }: PekerjaanClientProps
               <span
                 className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
                   activeTab === tab.value
-                    ? "bg-[#006837] text-white"
+                    ? "bg-[#004382] text-white"
                     : tab.isDanger
                     ? "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400"
                     : tab.isWarning

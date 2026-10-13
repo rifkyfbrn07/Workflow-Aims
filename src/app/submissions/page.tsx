@@ -31,7 +31,7 @@ export default async function SubmissionsHubPage({ searchParams }: { searchParam
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#008651] text-white shadow-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0055A5] text-white shadow-xs">
               <Send className="h-4 w-4" />
             </div>
             <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">Submission Hub</h1>
@@ -86,7 +86,7 @@ export default async function SubmissionsHubPage({ searchParams }: { searchParam
                       <td className="py-3 px-4">
                         <Link
                           href={`/pekerjaan/${period.id}`}
-                          className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#008651] block leading-snug transition-colors"
+                          className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#0055A5] block leading-snug transition-colors"
                         >
                           {report.name}
                         </Link>
@@ -146,7 +146,7 @@ export default async function SubmissionsHubPage({ searchParams }: { searchParam
 
                       <td className="py-3 px-3 text-right">
                         <div className="flex justify-end gap-1">
-                          <Link href={`/pekerjaan/${period.id}`} className="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#008651] hover:text-white text-slate-700 dark:text-slate-300 font-semibold text-xs transition-colors">
+                          <Link href={`/pekerjaan/${period.id}`} className="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#0055A5] hover:text-white text-slate-700 dark:text-slate-300 font-semibold text-xs transition-colors">
                             View
                           </Link>
                           {(sub.blobUrl || sub.fileUrl) && (

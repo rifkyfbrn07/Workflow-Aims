@@ -33,7 +33,7 @@ export function NavbarBreadcrumb() {
       <span className="text-slate-400 dark:text-slate-600">/</span>
       <span className="text-slate-700 dark:text-slate-300 font-semibold">{getBreadcrumbTitle()}</span>
       <span className="text-slate-400 dark:text-slate-600">/</span>
-      <span className="text-[#008651] dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded font-bold border border-emerald-200 dark:border-emerald-800 text-[11px] font-mono">
+      <span className="text-[#0055A5] dark:text-sky-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-0.5 rounded font-bold border border-blue-200 dark:border-blue-800 text-[11px] font-mono">
         2026
       </span>
     </div>

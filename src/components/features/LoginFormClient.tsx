@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
-import officialLogo from "@/image/WhatsApp Image 2026-10-05 at 13.36.35.jpeg";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 interface DemoAccountItem {
   name: string;
@@ -157,14 +157,7 @@ export function LoginFormClient({ demoAccountsEnabled = false }: LoginFormClient
 
           <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-3.5">
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white p-1.5 shadow-md border border-white/20">
-                <Image
-                  src={officialLogo}
-                  alt="Pertamina Nusantara Regas"
-                  priority
-                  className="h-full w-full object-contain"
-                />
-              </div>
+              <BrandLogo className="h-14 w-14 rounded-xl shadow-md border border-white/20" priority />
               <div>
                 <span className="text-base font-black tracking-tight text-white block">
                   NUSANTARA REGAS

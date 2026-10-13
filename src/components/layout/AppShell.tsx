@@ -13,11 +13,11 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 transition-colors">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 transition-colors">
       <Sidebar user={user} />
-      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
+      <div className="lg:pl-64 flex flex-col min-h-screen min-w-0">
         <Navbar />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-slate-50 dark:bg-[#0B1120]">
+        <main className="flex-1 p-4 md:p-6 lg:p-8 bg-slate-50 dark:bg-[#0B1120]">
           <PageTransition>{children}</PageTransition>
         </main>
       </div>

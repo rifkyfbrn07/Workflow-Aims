@@ -13,6 +13,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:seed:accounts": "tsx prisma/seed-test-accounts.ts",
     "db:seed:demo": "tsx prisma/seed-demo-accounts.ts",
+    "db:import:excel": "tsx scripts/import_excel_2026.ts",
     "db:studio": "prisma studio"
   },
   "dependencies": {
