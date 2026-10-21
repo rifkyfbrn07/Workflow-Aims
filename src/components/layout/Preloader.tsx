@@ -1,17 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import gsap from "gsap";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function Preloader() {
-  const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const introCompleteRef = useRef(false);
+  const readyRef = useRef(false);
+  const exitRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     // Only run on initial session or page entry to avoid interrupting navigation
@@ -21,27 +22,53 @@ export function Preloader() {
       return;
     }
 
-    setMounted(true);
-
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      sessionStorage.setItem("nr_preloader_dismissed", "true");
-      setVisible(false);
-      return;
-    }
+    const startTime = performance.now();
+    let exitTimer = 0;
+    const markReady = () => {
+      readyRef.current = true;
+      exitTimer = window.setTimeout(() => exitRef.current?.(), Math.max(0, 420 - (performance.now() - startTime)));
+    };
+    if (document.readyState === "complete") markReady();
+    else window.addEventListener("load", markReady, { once: true });
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
+    const exit = () => {
+      if (!readyRef.current || !introCompleteRef.current) return;
+      if (prefersReducedMotion) {
+        sessionStorage.setItem("nr_preloader_dismissed", "true");
+        setVisible(false);
+        return;
+      }
+      gsap.to(containerRef.current, {
+        opacity: 0, y: -4, duration: 0.24, ease: "power2.inOut",
         onComplete: () => {
           sessionStorage.setItem("nr_preloader_dismissed", "true");
           setVisible(false);
         },
       });
+    };
+    exitRef.current = exit;
+
+    if (prefersReducedMotion) {
+      introCompleteRef.current = true;
+      exitRef.current();
+      return () => {
+        window.removeEventListener("load", markReady);
+        window.clearTimeout(exitTimer);
+        exitRef.current = null;
+      };
+    }
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ onComplete: () => {
+        introCompleteRef.current = true;
+        exitRef.current?.();
+      } });
 
       tl.fromTo(
         logoRef.current,
         { opacity: 0, scale: 0.94, y: 10 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "power2.out" }
+        { opacity: 1, scale: 1, y: 0, duration: 0.48, ease: "power3.out" }
       )
         .fromTo(
           textRef.current,
@@ -51,19 +78,16 @@ export function Preloader() {
         )
         .fromTo(
           progressRef.current,
-          { scaleX: 0 },
-          { scaleX: 1, duration: 0.5, ease: "power1.inOut" },
+          { opacity: 0.45 },
+          { opacity: 1, duration: 0.35, ease: "power1.out" },
           "-=0.1"
-        )
-        .to(containerRef.current, {
-          opacity: 0,
-          duration: 0.3,
-          ease: "power2.inOut",
-          delay: 0.1,
-        });
+        );
     }, containerRef);
 
     return () => {
+      window.removeEventListener("load", markReady);
+      window.clearTimeout(exitTimer);
+      exitRef.current = null;
       ctx.revert();
     };
   }, []);
@@ -73,7 +97,7 @@ export function Preloader() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white dark:bg-[#090D16] transition-colors select-none"
+      className="nr-preloader fixed inset-0 z-[100] flex flex-col items-center justify-center select-none"
       style={{ willChange: "opacity" }}
       aria-live="polite"
       aria-label="Memuat aplikasi operasional"
@@ -82,7 +106,7 @@ export function Preloader() {
         {/* Official Nusantara Regas Logo with theme adaptiveness */}
         <div
           ref={logoRef}
-          className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-2 shadow-lg border border-slate-200/80 dark:border-slate-700/80"
+          className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white dark:bg-slate-900 p-2 shadow-lg border border-slate-200/80 dark:border-slate-800"
         >
           <BrandLogo className="h-full w-full" priority />
         </div>
@@ -93,7 +117,7 @@ export function Preloader() {
             <h1 className="text-sm font-black tracking-wider text-slate-900 dark:text-slate-100 uppercase">
               NUSANTARA REGAS
             </h1>
-            <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950/60 text-[#008651] dark:text-emerald-400 font-bold px-1.5 py-0.2 rounded font-mono border border-emerald-200 dark:border-emerald-800">
+            <span className="text-[10px] bg-blue-50 dark:bg-blue-950/60 text-[#0055A5] dark:text-sky-400 font-bold px-1.5 py-0.2 rounded font-mono border border-blue-200 dark:border-blue-800">
               AIMS
             </span>
           </div>
@@ -106,7 +130,7 @@ export function Preloader() {
         <div className="mt-6 w-44 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
           <div
             ref={progressRef}
-            className="w-full h-full bg-[#008651] dark:bg-emerald-400 origin-left"
+            className="nr-preloader-line w-full h-full bg-[#0055A5] dark:bg-sky-400 origin-left"
           />
         </div>
 

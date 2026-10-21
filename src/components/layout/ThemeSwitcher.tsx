@@ -58,15 +58,15 @@ export function ThemeSwitcher({ compact = false, className }: ThemeSwitcherProps
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#008651]"
+        className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-[color,background-color,border-color,box-shadow,transform] duration-200 shadow-2xs hover:shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#008651] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
         title={`Tema saat ini: ${theme} (Klik untuk mengganti)`}
         aria-label="Pilih mode tema"
         aria-expanded={open}
       >
         {resolvedTheme === "dark" ? (
-          <Moon className="h-4 w-4 text-sky-400 transition-transform duration-200" />
+          <Moon className="h-4 w-4 text-sky-400 transition-transform duration-300 ease-out rotate-[-18deg] hover:rotate-0" />
         ) : (
-          <Sun className="h-4 w-4 text-amber-500 transition-transform duration-200" />
+          <Sun className="h-4 w-4 text-amber-500 transition-transform duration-300 ease-out rotate-[-18deg] hover:rotate-0" />
         )}
       </button>
 

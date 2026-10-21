@@ -65,6 +65,43 @@
   }
 }
 
+.nr-preloader {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgb(0 85 165 / 8%), transparent 48%),
+    hsl(var(--background));
+}
+
+.dark .nr-preloader {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgb(2 132 199 / 15%), transparent 48%),
+    radial-gradient(ellipse at 80% 75%, rgb(220 38 38 / 5%), transparent 34%),
+    #090d16;
+}
+
+.nr-preloader-line {
+  transform: scaleX(0.32);
+  transform-origin: left;
+  animation: nr-loading-sweep 1.25s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+}
+
+@keyframes nr-loading-sweep {
+  from { transform: scaleX(0.28); opacity: 0.55; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nr-preloader-line { animation: none; transform: scaleX(0.65); }
+}
+
+/* Only interpolate theme colors during an intentional theme change. */
+html.theme-transitioning,
+html.theme-transitioning body,
+html.theme-transitioning body * {
+  transition-property: color, background-color, border-color, outline-color, fill, stroke, box-shadow;
+  transition-duration: 260ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -104,6 +141,11 @@
 
 /* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning body,
+  html.theme-transitioning body * {
+    transition-duration: 0.01ms !important;
+  }
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

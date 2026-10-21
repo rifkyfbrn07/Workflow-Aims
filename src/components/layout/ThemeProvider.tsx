@@ -20,8 +20,29 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
   const [mounted, setMounted] = useState(false);
 
+  const applyResolvedTheme = (isDark: boolean, animate = false) => {
+    const root = document.documentElement;
+    const next = isDark ? "dark" : "light";
+    if (root.classList.contains("dark") === isDark) {
+      setResolvedTheme(next);
+      return;
+    }
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (animate && !reduceMotion) {
+      root.classList.add("theme-transitioning");
+      window.clearTimeout(Number(root.dataset.themeTransitionTimer));
+    }
+    root.classList.toggle("dark", isDark);
+    setResolvedTheme(next);
+
+    if (animate && !reduceMotion) {
+      const timer = window.setTimeout(() => root.classList.remove("theme-transitioning"), 320);
+      root.dataset.themeTransitionTimer = String(timer);
+    }
+  };
+
   useEffect(() => {
-    // Read saved theme from localStorage
     const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
     const initialTheme: Theme = saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
     setThemeState(initialTheme);
@@ -30,42 +51,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!mounted) return;
+    const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    applyResolvedTheme(isDark, true);
+  }, [theme, mounted]);
 
-    const root = document.documentElement;
+  useEffect(() => {
+    if (!mounted || theme !== "system") return;
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const applyTheme = () => {
-      let isDark = false;
-      if (theme === "dark") {
-        isDark = true;
-      } else if (theme === "light") {
-        isDark = false;
-      } else {
-        isDark = mediaQuery.matches;
-      }
-
-      if (isDark) {
-        root.classList.add("dark");
-        setResolvedTheme("dark");
-      } else {
-        root.classList.remove("dark");
-        setResolvedTheme("light");
-      }
-    };
-
-    applyTheme();
-
-    const handleChange = () => {
-      if (theme === "system") {
-        applyTheme();
-      }
-    };
-
+    const handleChange = () => applyResolvedTheme(mediaQuery.matches, true);
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme, mounted]);
 
   const setTheme = (newTheme: Theme) => {
+    const isDark = newTheme === "dark" || (newTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    applyResolvedTheme(isDark, true);
     setThemeState(newTheme);
     localStorage.setItem(THEME_STORAGE_KEY, newTheme);
   };

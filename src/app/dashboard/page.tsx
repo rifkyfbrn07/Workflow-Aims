@@ -212,18 +212,25 @@ export default async function DashboardPage() {
         </div>
       </DashboardStaggerContainer>
 
-      {/* 3. HERO SECTION — ACTION-REQUIRED TASKS (Most Prominent Area) */}
-      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs transition-colors">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0055A5] text-white shadow-2xs">
+      {/* 3. HERO SECTION — ACTION-REQUIRED TASKS (Most Prominent Operational Command Surface) */}
+      <div className="rounded-xl border border-slate-200 dark:border-slate-800 border-l-4 border-l-[#0055A5] dark:border-l-sky-400 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden transition-colors">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 sm:p-5 bg-slate-50/70 dark:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0055A5] dark:bg-sky-500 text-white shadow-2xs">
               <Sparkles className="h-4 w-4" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-                Laporan &amp; Tugas Memerlukan Tindakan Segera
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+                  Laporan &amp; Tugas Memerlukan Tindakan Segera
+                </h2>
+                {actionRequiredCount > 0 && (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/80 text-[#0055A5] dark:text-sky-300 border border-blue-200 dark:border-blue-800 font-mono">
+                    {actionRequiredCount} Tugas
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Daftar pekerjaan prioritas yang membutuhkan input, pengunggahan berkas, atau verifikasi dari Anda
               </p>
             </div>
@@ -238,85 +245,87 @@ export default async function DashboardPage() {
           </Link>
         </div>
 
-        {actionItems.length === 0 ? (
-          <div className="py-10 text-center text-xs text-slate-400 dark:text-slate-500 space-y-1.5">
-            <CheckCircle2 className="h-8 w-8 mx-auto text-[#008651] dark:text-emerald-400" />
-            <h3 className="font-bold text-sm text-slate-800 dark:text-slate-200">Semua Tugas Berjalan Lancar!</h3>
-            <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-              Tidak ada laporan yang membutuhkan tindakan segera dari Anda saat ini. Seluruh jadwal dan submission berada dalam status terkendali.
-            </p>
-          </div>
-        ) : (
-          <div className="divide-y divide-slate-100 dark:divide-slate-800 mt-2">
-            {actionItems.map((item) => {
-              const isRevision = item.status === "REVISION";
-              const isOverdue = item.status === "OVERDUE";
-              const isReview = item.status === "SUBMITTED" || item.status === "UNDER_REVIEW";
+        <div className="p-4 sm:p-5">
+          {actionItems.length === 0 ? (
+            <div className="py-10 text-center text-xs text-slate-400 dark:text-slate-500 space-y-1.5">
+              <CheckCircle2 className="h-8 w-8 mx-auto text-[#008651] dark:text-emerald-400" />
+              <h3 className="font-bold text-sm text-slate-800 dark:text-slate-200">Semua Tugas Berjalan Lancar!</h3>
+              <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+                Tidak ada laporan yang membutuhkan tindakan segera dari Anda saat ini. Seluruh jadwal dan submission berada dalam status terkendali.
+              </p>
+            </div>
+          ) : (
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              {actionItems.map((item) => {
+                const isRevision = item.status === "REVISION";
+                const isOverdue = item.status === "OVERDUE";
+                const isReview = item.status === "SUBMITTED" || item.status === "UNDER_REVIEW";
 
-              return (
-                <div
-                  key={item.id}
-                  className="py-3.5 px-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                >
-                  {/* Left: Info */}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
+                return (
+                  <div
+                    key={item.id}
+                    className="py-3 px-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs rounded-lg hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors"
+                  >
+                    {/* Left: Info */}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Link
+                          href={item.href}
+                          className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#0055A5] dark:hover:text-sky-400 transition-colors block text-sm leading-snug"
+                        >
+                          {item.reportName}
+                        </Link>
+                        {item.reportCode && (
+                          <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">
+                            ({item.reportCode})
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex-wrap">
+                        <span className="font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                          {item.periodLabel}
+                        </span>
+                        <span>•</span>
+                        <span>{item.responsiblePerson}</span>
+                        <span>•</span>
+                        <span>Cut-Off: {formatDateIndo(item.deadlineSubmit)}</span>
+                      </div>
+                    </div>
+
+                    {/* Right: Status Badge & Action Button */}
+                    <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto">
+                      <CountdownBadge deadline={item.deadlineSubmit} status={item.status} />
+                      <StatusBadge status={item.status} size="sm" />
+
                       <Link
                         href={item.href}
-                        className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#0055A5] dark:hover:text-sky-400 transition-colors block text-sm leading-snug"
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold shadow-2xs transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                          isRevision
+                            ? "bg-rose-600 hover:bg-rose-700 text-white"
+                            : isOverdue
+                            ? "bg-red-600 hover:bg-red-700 text-white"
+                            : isReview
+                            ? "bg-amber-600 hover:bg-amber-700 text-white"
+                            : "bg-[#0055A5] hover:bg-[#00478B] text-white"
+                        }`}
                       >
-                        {item.reportName}
+                        {isRevision ? (
+                          <RotateCcw className="h-3.5 w-3.5" />
+                        ) : isReview ? (
+                          <CheckCircle2 className="h-3.5 w-3.5" />
+                        ) : (
+                          <Send className="h-3.5 w-3.5" />
+                        )}
+                        <span>{item.actionLabel}</span>
                       </Link>
-                      {item.reportCode && (
-                        <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">
-                          ({item.reportCode})
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex-wrap">
-                      <span className="font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
-                        {item.periodLabel}
-                      </span>
-                      <span>•</span>
-                      <span>{item.responsiblePerson}</span>
-                      <span>•</span>
-                      <span>Cut-Off: {formatDateIndo(item.deadlineSubmit)}</span>
                     </div>
                   </div>
-
-                  {/* Right: Status Badge & Action Button */}
-                  <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto">
-                    <CountdownBadge deadline={item.deadlineSubmit} status={item.status} />
-                    <StatusBadge status={item.status} size="sm" />
-
-                    <Link
-                      href={item.href}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold shadow-2xs transition-all hover:scale-[1.02] active:scale-[0.98] ${
-                        isRevision
-                          ? "bg-rose-600 hover:bg-rose-700 text-white"
-                          : isOverdue
-                          ? "bg-red-600 hover:bg-red-700 text-white"
-                          : isReview
-                          ? "bg-amber-600 hover:bg-amber-700 text-white"
-                          : "bg-[#0055A5] hover:bg-[#00478B] text-white"
-                      }`}
-                    >
-                      {isRevision ? (
-                        <RotateCcw className="h-3.5 w-3.5" />
-                      ) : isReview ? (
-                        <CheckCircle2 className="h-3.5 w-3.5" />
-                      ) : (
-                        <Send className="h-3.5 w-3.5" />
-                      )}
-                      <span>{item.actionLabel}</span>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* 4. OPERATIONAL PRIORITY GRID: UPCOMING DEADLINES & OVERDUE WATCHLIST */}
@@ -381,33 +390,41 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* Right: Critical Overdue Table */}
-        <div className="lg:col-span-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs flex flex-col justify-between transition-colors">
+        {/* Right: Critical Overdue Watchlist (Distinct Warning Surface) */}
+        <div className={`lg:col-span-6 rounded-xl border p-5 shadow-2xs flex flex-col justify-between transition-colors ${
+          overdueCount > 0
+            ? "border-red-200/90 dark:border-red-900/60 bg-red-50/30 dark:bg-red-950/15"
+            : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+        }`}>
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                <AlertTriangle className={`h-4 w-4 ${overdueCount > 0 ? "text-red-600 dark:text-red-400 animate-pulse" : "text-slate-400"}`} />
                 <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight">
                   Laporan Melewati Cut-Off (Overdue)
                 </h2>
               </div>
-              <span className="text-xs font-bold text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-950/60 border border-red-200 dark:border-red-800 px-2 py-0.5 rounded-full font-mono">
-                {stats.criticalOverdue.length} Tertunda
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full font-mono border ${
+                overdueCount > 0
+                  ? "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-950/80 border-red-300 dark:border-red-800"
+                  : "text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-800"
+              }`}>
+                {overdueCount > 0 ? `${overdueCount} Tertunda` : "Terkendali"}
               </span>
             </div>
 
-            <div className="divide-y divide-slate-100 dark:divide-slate-800 mt-2 max-h-80 overflow-y-auto">
+            <div className="divide-y divide-slate-100 dark:divide-slate-800/80 mt-2 max-h-80 overflow-y-auto">
               {stats.criticalOverdue.length === 0 ? (
                 <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500">
                   <CheckCircle2 className="h-6 w-6 mx-auto mb-1 text-[#008651] dark:text-emerald-400" />
                   <p className="font-semibold text-slate-700 dark:text-slate-300">Tidak ada laporan yang terlambat!</p>
-                  <p className="text-[11px] text-slate-400">Seluruh jadwal operasional berjalan sesuai tata kelola cut-off.</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Seluruh jadwal operasional berjalan sesuai tata kelola cut-off.</p>
                 </div>
               ) : (
                 stats.criticalOverdue.map((p) => (
                   <div
                     key={p.id}
-                    className="py-3 flex items-center justify-between gap-3 text-xs hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg px-2 transition-colors"
+                    className="py-3 flex items-center justify-between gap-3 text-xs hover:bg-white/60 dark:hover:bg-slate-900/60 rounded-lg px-2 transition-colors"
                   >
                     <div className="min-w-0 flex-1">
                       <Link
@@ -431,7 +448,7 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-right">
+          <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 text-right">
             <Link
               href="/jadwal?status=OVERDUE"
               className="text-xs font-semibold text-red-600 dark:text-red-400 hover:underline inline-flex items-center gap-1"
@@ -443,25 +460,30 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* 5. MASTER SCHEDULE 12-MONTH MATRIX BANNER */}
-      <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+      {/* 5. MASTER SCHEDULE 12-MONTH MATRIX BANNER (Corporate Architectural Banner) */}
+      <div className="rounded-xl bg-gradient-to-r from-slate-900 via-[#0B2545] to-[#0055A5] text-white p-5 shadow-sm border border-slate-700/60 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
         <div className="flex items-center gap-3.5">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 shrink-0 border border-slate-200 dark:border-slate-700">
-            <Calendar className="h-5 w-5 text-[#0055A5] dark:text-sky-400" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0 border border-white/15 backdrop-blur-xs">
+            <Calendar className="h-6 w-6 text-sky-300" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-              Matriks Jadwal &amp; Program Kerja 12 Bulan (Januari – Desember 2026)
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Pantau jadwal cut-off bulanan, tanggal meeting, target draft, dan realisasi seluruh program kerja unit operasional.
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-bold tracking-tight text-white">
+                Matriks Jadwal &amp; Program Kerja 12 Bulan (Januari – Desember 2026)
+              </h3>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-400/20 text-sky-200 border border-sky-400/30 font-mono">
+                SOP Terintegrasi
+              </span>
+            </div>
+            <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+              Pantau jadwal cut-off bulanan, tanggal meeting, target draft, dan realisasi seluruh program kerja unit operasional Nusantara Regas.
             </p>
           </div>
         </div>
 
         <Link
           href="/jadwal"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 text-[#0055A5] dark:text-sky-400 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 shadow-2xs transition-colors shrink-0"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold bg-white text-[#0055A5] hover:bg-slate-100 shadow-sm transition-all hover:scale-[1.01] active:scale-[0.98] shrink-0"
         >
           <span>Buka Matriks &amp; Jadwal Lengkap</span>
           <ArrowRight className="h-3.5 w-3.5" />

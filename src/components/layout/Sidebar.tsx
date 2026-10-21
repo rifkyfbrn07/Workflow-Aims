@@ -131,7 +131,7 @@ export function Sidebar({ user }: SidebarProps) {
     <aside className="hidden lg:flex lg:flex-col fixed inset-y-0 top-0 bottom-0 left-0 w-64 h-screen max-h-screen overflow-hidden bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shrink-0 select-none z-40 transition-colors">
       {/* Brand Header */}
       <div className="h-16 shrink-0 flex items-center px-4 gap-3 border-b border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
-        <BrandLogo className="h-10 w-10 shrink-0 shadow-2xs border border-slate-200/80 dark:border-slate-700/60" priority />
+        <BrandLogo className="h-10 w-10 shrink-0" priority />
 
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
@@ -150,7 +150,7 @@ export function Sidebar({ user }: SidebarProps) {
       <div className="flex-1 overflow-y-auto py-4 px-3 space-y-5 overscroll-contain">
         {navSections.map((section, sIdx) => (
           <div key={sIdx} className="space-y-1">
-            <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            <p className="px-3 text-[9.5px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500">
               {section.title}
             </p>
             <div className="space-y-0.5 mt-1">
@@ -173,22 +173,15 @@ export function Sidebar({ user }: SidebarProps) {
                         className={cn(
                           "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all duration-150 group relative select-none",
                           isMainActive
-                            ? "bg-blue-50/80 dark:bg-blue-950/40 text-[#0055A5] dark:text-sky-400 font-bold"
-                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200 font-medium"
+                            ? "bg-slate-100/70 dark:bg-slate-800/60 text-[#0055A5] dark:text-sky-400 font-bold"
+                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/60 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-100 font-medium"
                         )}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
-                          {isMainActive && (
-                            <motion.span
-                              layoutId="activeNavIndicator"
-                              className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0055A5] dark:bg-sky-400 rounded-r-full"
-                              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                            />
-                          )}
                           <Icon
                             className={cn(
-                              "h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5",
-                              isMainActive ? "text-[#0055A5] dark:text-sky-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300"
+                              "h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-105",
+                              isMainActive ? "text-[#0055A5] dark:text-sky-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-200"
                             )}
                           />
                           <span className="truncate">{item.label}</span>
@@ -209,9 +202,9 @@ export function Sidebar({ user }: SidebarProps) {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.18, ease: "easeInOut" }}
-                            className="overflow-hidden pl-4 pr-1 space-y-0.5"
+                            className="overflow-hidden pl-3 pr-1 space-y-0.5"
                           >
-                            <div className="border-l border-slate-200/80 dark:border-slate-800 ml-2 pl-2.5 py-1 space-y-0.5">
+                            <div className="border-l-2 border-slate-200/80 dark:border-slate-800 ml-2 pl-2.5 py-1 space-y-0.5">
                               {item.subItems?.map((sub) => {
                                 const SubIcon = sub.icon || ArrowRight;
                                 const isSubActive =
@@ -224,12 +217,19 @@ export function Sidebar({ user }: SidebarProps) {
                                     key={sub.href + sub.label}
                                     href={sub.href}
                                     className={cn(
-                                      "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[11px] transition-all duration-150 group",
+                                      "flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[11px] transition-all duration-150 group relative",
                                       isSubActive
-                                        ? "bg-blue-50 dark:bg-blue-950/50 text-[#0055A5] dark:text-sky-400 font-bold"
-                                        : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 font-medium"
+                                        ? "bg-blue-50 dark:bg-blue-950/60 text-[#0055A5] dark:text-sky-300 font-bold"
+                                        : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/50 dark:hover:bg-slate-800/40 font-medium"
                                     )}
                                   >
+                                    {isSubActive && (
+                                      <motion.span
+                                        layoutId="activeSubNavIndicator"
+                                        className="absolute -left-[13px] top-1.5 bottom-1.5 w-0.5 bg-[#0055A5] dark:bg-sky-400 rounded-full"
+                                        transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                                      />
+                                    )}
                                     <SubIcon
                                       className={cn(
                                         "h-3 w-3 shrink-0 transition-transform duration-150 group-hover:translate-x-0.5",
@@ -253,23 +253,23 @@ export function Sidebar({ user }: SidebarProps) {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all duration-150 group relative",
+                      "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-all duration-150 group relative select-none",
                       isMainActive
-                        ? "bg-blue-50/80 dark:bg-blue-950/40 text-[#0055A5] dark:text-sky-400 font-bold shadow-2xs"
-                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200 font-medium"
+                        ? "bg-blue-50/90 dark:bg-blue-950/50 text-[#0055A5] dark:text-sky-300 font-bold shadow-2xs"
+                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/70 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-100 font-medium"
                     )}
                   >
                     {isMainActive && (
                       <motion.span
                         layoutId="activeNavIndicator"
-                        className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0055A5] dark:bg-sky-400 rounded-r-full"
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0055A5] dark:bg-sky-400 rounded-r-full shadow-xs"
+                        transition={{ type: "spring", stiffness: 350, damping: 28 }}
                       />
                     )}
                     <Icon
                       className={cn(
-                        "h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5",
-                        isMainActive ? "text-[#0055A5] dark:text-sky-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300"
+                        "h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-105",
+                        isMainActive ? "text-[#0055A5] dark:text-sky-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-200"
                       )}
                     />
                     <span className="truncate">{item.label}</span>
